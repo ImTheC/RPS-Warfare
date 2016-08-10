@@ -19,9 +19,6 @@ $(function(){
 		$('#winner').text( winner );
 	});
 
-
-	console.log( gamelogic.randomRPS() );
-
 }); // End of jQuery
 
 },{"./gamelogic.js":2}],2:[function(require,module,exports){
