@@ -1,0 +1,248 @@
+{
+		"hex1": {
+						 "blocked": true
+						},
+		"hex2": {
+						 "hex6": true,
+						 "hex7": true,
+						 "hex3": true
+						},
+		"hex3": {
+						 "hex2": true,
+						 "hex7": true,
+						 "hex8": true,
+						 "hex4": true
+						},
+		"hex4": {
+						 "hex3": true,
+						 "hex8": true,
+						 "hex9": true
+					 },
+		"hex5": {
+						 "hex10": true,
+						 "hex11": true,
+						 "hex6": true
+					 },
+		"hex6": {
+						 "hex2": true,
+						 "hex5": true,
+						 "hex7": true,
+						 "hex11": true,
+						 "hex12": true
+					 },
+		"hex7": {
+						 "hex2": true,
+						 "hex3": true,
+						 "hex6": true,
+						 "hex8": true,
+						 "hex12": true,
+						 "hex13": true
+					 },
+		"hex8": {
+						 "hex3": true,
+						 "hex4": true,
+						 "hex7": true,
+						 "hex9": true,
+						 "hex13": true,
+						 "hex14": true
+					 },
+		"hex9": {
+						 "hex4": true,
+						 "hex8": true,
+						 "hex14": true,
+						 "hex15": true
+					 },
+		"hex10": {
+						 "hex5": true,
+						 "hex6": true,
+						 "hex11": true,
+						 "hex16": true,
+						 "hex17": true
+					 },
+		"hex11": {
+						 "hex5": true,
+						 "hex6": true,
+						 "hex10": true,
+						 "hex12": true,
+						 "hex17": true,
+						 "hex18": true
+					 },
+		"hex12": {
+						 "hex6": true,
+						 "hex7": true,
+						 "hex11": true,
+						 "hex13": true,
+						 "hex18": true,
+						 "hex19": true
+					 },
+		"hex13": {
+						 "hex7": true,
+						 "hex8": true,
+						 "hex12": true,
+						 "hex14": true,
+						 "hex19": true,
+						 "hex20": true
+					 },
+		"hex14": {
+						 "hex8": true,
+						 "hex9": true,
+						 "hex13": true,
+						 "hex15": true,
+						 "hex20": true,
+						 "hex21": true
+					 },
+		"hex15": {
+						 "hex9": true,
+						 "hex14": true,
+						 "hex21": true,
+						 "hex22": true
+					 },
+		"hex16":{
+						 "hex10": true,
+						 "hex17": true,
+						 "hex23": true
+					 },
+		"hex17":{
+						 "hex10": true,
+						 "hex11": true,
+						 "hex16": true,
+						 "hex18": true,
+						 "hex23": true,
+						 "hex24": true
+					 },
+		"hex18":{
+						 "hex11": true,
+						 "hex12": true,
+						 "hex17": true,
+						 "hex19": true,
+						 "hex24": true,
+						 "hex25": true
+					 },
+		"hex19":{
+						 "hex12": true,
+						 "hex13": true,
+						 "hex18": true,
+						 "hex20": true,
+						 "hex25": true,
+						 "hex26": true
+					 },
+		"hex20":{
+						 "hex13": true,
+						 "hex14": true,
+						 "hex19": true,
+						 "hex21": true,
+						 "hex26": true,
+						 "hex27": true
+					 },
+		"hex21":{
+						 "hex14": true,
+						 "hex15": true,
+						 "hex20": true,
+						 "hex22": true,
+						 "hex27": true,
+						 "hex28": true
+					 },
+		"hex22":{
+						 "hex15": true,
+						 "hex21": true,
+						 "hex28": true
+					 },
+		"hex23":{
+						 "hex16": true,
+						 "hex17": true,
+						 "hex24": true,
+						 "hex29": true
+					 },
+		"hex24":{
+						 "hex17": true,
+						 "hex18": true,
+						 "hex23": true,
+						 "hex25": true,
+						 "hex29": true,
+						 "hex30": true
+					 },
+		"hex25":{
+						 "hex18": true,
+						 "hex19": true,
+						 "hex24": true,
+						 "hex26": true,
+						 "hex30": true,
+						 "hex31": true
+					 },
+		"hex26":{
+						 "hex19": true,
+						 "hex20": true,
+						 "hex25": true,
+						 "hex27": true,
+						 "hex31": true,
+						 "hex32": true
+					 },
+		"hex27":{
+						 "hex20": true,
+						 "hex21": true,
+						 "hex26": true,
+						 "hex28": true,
+						 "hex32": true,
+						 "hex33": true
+					 },
+		"hex28":{
+						 "hex21": true,
+						 "hex22": true,
+						 "hex27": true,
+						 "hex33": true
+					 },
+		"hex29":{
+						 "hex23": true,
+						 "hex24": true,
+						 "hex30": true,
+						 "hex34": true
+					 },
+		"hex30":{
+						 "hex24": true,
+						 "hex25": true,
+						 "hex29": true,
+						 "hex31": true,
+						 "hex34": true,
+						 "hex35": true
+					 },
+		"hex31":{
+						 "hex25": true,
+						 "hex26": true,
+						 "hex30": true,
+						 "hex32": true,
+						 "hex35": true,
+						 "hex36": true
+					 },
+		"hex32":{
+						 "hex26": true,
+						 "hex27": true,
+						 "hex31": true,
+						 "hex33": true,
+						 "hex36": true
+					 },
+		"hex33":{
+						 "hex27": true,
+						 "hex28": true,
+						 "hex32": true
+					 },
+		"hex34":{
+						 "hex29": true,
+						 "hex30": true,
+						 "hex35": true
+					 },
+		"hex35":{
+						 "hex34": true,
+						 "hex30": true,
+						 "hex31": true,
+						 "hex36": true
+					 },
+		"hex36":{
+						 "hex31": true,
+						 "hex32": true,
+						 "hex35": true
+					 },
+		"hex37":{
+						 "blocked": true
+					 }
+
+}

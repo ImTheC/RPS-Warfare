@@ -1,7 +1,7 @@
 <h1>USERS</h1>
 
 <div ng-show="firebaseUser">
-    <p>Hello, {{ firebaseUser.displayName || firebaseUser.email }}</p>
+    <p>Hello, {{ firebaseUser.providerData[0].displayName }}</p>
     <button ng-click="auth.$signOut()">Sign Out</button>
   </div>
   <div ng-hide="firebaseUser">
@@ -11,8 +11,8 @@
 
 <hr>
 
-<input type="text" ng-model="data.text"/>
-<h1>You said: {{ data.text }}</h1>
+<!-- <input type="text" ng-model="data.text"/>
+<h1>You said: {{ data.text }}</h1> -->
 
 <hr>
 
@@ -23,7 +23,7 @@ Password: <input type="text" ng-model="password">
 
   <br><br>
 
-  <button ng-click="createUser(email,password,displayName)">Create User</button>
+  <button ng-click="createUser(email,password)">Create User</button>
 
   <br><br>
 
