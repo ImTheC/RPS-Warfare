@@ -1,3 +1,58 @@
 
 
-<h1>new game</h1>
+
+
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-open="newgame.sidenavOpen" md-disable-backdrop="true">
+
+
+
+  <md-toolbar>
+    <h1 class="md-toolbar-tools">Game Setup</h1>
+  </md-toolbar>
+
+
+  <md-content layout-padding>
+      <form>
+        <md-input-container>
+          <label for="title">Title</label>
+          <input type="text" id="title"
+                 ng-model="games.title">
+        </md-input-container>
+        <md-input-container>
+          <label for="price">Price</label>
+          <input type="text" id="price"
+               ng-model="games.price">
+        </md-input-container>
+        <md-input-container>
+          <label for="description">Description</label>
+          <textarea type="text" id="description"
+                ng-model="games.description">
+          </textarea>
+        </md-input-container>
+        <md-input-container>
+          <label for="image">Image Link</label>
+          <input type="text" id="image"
+                ng-model="games.image">
+        </md-input-container>
+        <md-input-container>
+          <md-button ng-click="newgame.createNewGame(games)" class="md-primary">
+            Stare RPS Warfare
+          </md-button>
+        </md-input-container>
+        <pre>
+          {{loggedIn | json}}
+          {{games | json}}
+        </pre>
+      </form>
+      <md-button ng-click="newgame.initGame()">test</md-button>
+
+      <md-input-container>
+        <label for="test">Test</label>
+        <input type="text" id="test" ng-model="newgame.games.players.player1.displayName">
+        {{newgame.games.players.player1.displayName}}
+      </md-input-container>
+
+    </md-content>
+
+
+  </md-sidenav>

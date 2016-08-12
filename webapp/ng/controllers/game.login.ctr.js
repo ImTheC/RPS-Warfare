@@ -5,9 +5,9 @@
 
   angular
     .module('rpsApp')
-    .controller('usersCtr',
-            ['$scope','$state','$http','$mdToast','$mdDialog','$firebaseObject','$firebaseArray','authService','addUserService',
-      function($scope, $state, $http, $mdToast, $mdDialog, $firebaseObject, $firebaseArray, authService, addUserService){
+    .controller('loginCtr',
+            ['$scope','$state','$mdSidenav','$timeout','$mdToast','$mdDialog','$firebaseObject','$firebaseArray','authService','addUserService',
+      function($scope, $state, $mdSidenav, $timeout, $mdToast, $mdDialog, $firebaseObject, $firebaseArray, authService, addUserService){
 
       let t = this;
       let s = $scope;
@@ -15,11 +15,35 @@
 
       //initialize functions
       s.signInWithEmail = signInWithEmail;
+      t.closeRightSidebar = closeRightSidebar;
 
-      //vars
+      //initialize vars
       s.users = {};
       s.email;
       s.password;
+      t.rightSidenavOpen;
+
+      //START NAV CONTROLS
+      $timeout(function(){
+        $mdSidenav('right').open();
+        t.rightSidenavOpen = true;
+      });
+
+      s.$watch('t.rightSidenavOpen',function(sidenav){
+        if(sidenav === false){
+          $mdSidenav('right')
+            .close()
+            .then(function(){
+              st.go('games');
+            });
+        }
+      });
+
+      function closeRightSidebar(){
+        $mdSidenav('right').close();
+        st.go('games');
+        t.rightSidenavOpen = false;
+      };//END NAV CONTROLS
 
       //EMAIL SIGNUPS
       s.createUser = function() {
@@ -49,17 +73,17 @@
 
             s.firebaseUser.providerData[0].score = 0;
 
-            s.firebaseUser.providerData[0].dateCreated = firebase.database.ServerValue.TIMESTAMP;
-
             if (s.firebaseUser !== null && s.firebaseUser.providerData[0].providerId === 'password'){
 
-              let uid = s.firebaseUser.uid;
+              var uid = s.firebaseUser.uid;
 
-              let providerData = s.firebaseUser.providerData[0];
+              s.users[uid] = s.firebaseUser.providerData[0];
 
-              addUserService.toUserObj(uid).$add(providerData)
+              addUserService.$add(s.users[uid])
               .then(function(ref) {
-                // let id = ref.key();
+                var globalizeUser = s.firebaseUser;
+                s.$emit('firebaseUser', globalizeUser);
+                closeRightSidebar();
                 console.log('Email Signup Saved');
               }, function(error) {
                 console.log("Oops, the following went wrong: ", error);
@@ -100,16 +124,15 @@
 
           if (s.firebaseUser.providerData[0].providerId !== "password"){
 
+            var uid = s.firebaseUser.uid;
+
             s.firebaseUser.providerData[0].score = 0;
 
-            s.firebaseUser.providerData[0].dateCreated = firebase.database.ServerValue.TIMESTAMP;
+            s.users[uid] = s.firebaseUser.providerData[0];
 
-            let uid = s.firebaseUser.uid;
-
-            let providerData = s.firebaseUser.providerData[0];
-
-            addUserService.toUserObj(uid).$add(providerData)
+            addUserService.$add(s.users[uid])
             .then(function(ref) {
+              // closeRightSidebar();
               console.log('Social Signup Saved');
             }, function(error) {
               console.log("Oops, the following went wrong: ", error);

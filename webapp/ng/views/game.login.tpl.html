@@ -1,0 +1,34 @@
+
+
+
+
+<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-open="login.rightSidenavOpen" md-disable-backdrop="true">
+
+    <md-toolbar style="display:inline-block">
+      <md-button ng-click="login.closeRightSidebar()" style="width:30px;height:30px;padding:0;"><md-icon class="mdi mdi-close"></md-icon></md-button>LOGIN OR SIGNUP
+    </md-toolbar>
+
+    <md-content layout-padding>
+      <div ng-show="firebaseUser">
+        <p>Hello {{ firebaseUser.providerData[0].displayName }}! <md-button ng-click="auth.$signOut()">Sign Out</md-button></p>
+      </div>
+      <div ng-hide="firebaseUser"><p>Welcome, please sign in to play.</p></div>
+        <md-button ng-click="auth.$signInWithPopup('facebook')">Sign In With Facebook</md-button>
+        <p>
+          or
+        </p>
+        <md-input-container>
+          <label for="email">Email</label>
+          <input id="email" type="text" ng-model="email">
+        </md-input-container>
+        <md-input-container>
+          <label for="password">Password</label>
+          <input id="password" type="password" ng-model="password">
+        </md-input-container>
+        <md-input-container>
+          <md-button ng-click="signInWithEmail(email,password)">Sign In</md-button>
+          <md-button ng-click="createUser(email,password)">Sign Up</md-button>
+        </md-input-container>
+    </md-content>
+
+</md-sidenav>

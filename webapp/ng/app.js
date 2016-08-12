@@ -29,7 +29,7 @@
           templateUrl: '/ng/views/user.edit.tpl.html',
           controller: 'editUserCtr as edituser',
           params: {
-            classified: null
+            user: null
           }
         })
         .state('games',{
@@ -42,12 +42,17 @@
           templateUrl: '/ng/views/game.new.tpl.html',
           controller: 'newGameCtr as newgame'
         })
+        .state('games.login',{
+          url: '/login',
+          templateUrl: '/ng/views/game.login.tpl.html',
+          controller: 'loginCtr as login'
+        })
         .state('games.id',{
           url: '/id/:id',
           templateUrl: '/ng/views/game.tpl.html',
           controller: 'gameCtr as game',
           params: {
-            classified: null
+            user: null
           }
         });
 

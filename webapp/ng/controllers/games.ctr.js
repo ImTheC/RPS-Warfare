@@ -6,18 +6,35 @@
   angular
     .module('rpsApp')
     .controller('gamesCtr',
-            ['$scope','$state','$http','$mdToast','$mdDialog','getUsersService','newGameService','setupGameService','getGameService',
-      function($scope, $state, $http, $mdToast, $mdDialog, getUsersService, newGameService, setupGameService, getGameService){
+            ['$rootScope','$scope','$state','$http','$mdToast','$mdDialog','$firebaseObject','$firebaseArray','authService','addUserService','getUserService',
+      function($rootScope, $scope, $state, $http, $mdToast, $mdDialog, $firebaseObject, $firebaseArray, authService, addUserService, getUserService){
 
       let t = this;
       let s = $scope;
+      let rs = $rootScope;
       let st = $state;
 
-      //initialize functions
+      //initialized functions
+      t.openSidebar = openSidebar;
+      t.openRightSidebar = openRightSidebar;
+      t.closeSidebar = closeSidebar;
+
+      //initialized vars
 
 
-      //vars
 
+
+      function openSidebar(){
+        st.go('games.new');
+      };
+
+      function openRightSidebar(){
+        st.go('games.login');
+      };
+
+      function closeSidebar(){
+        $mdSidenav('left').close();
+      };
 
       function showToast(message){
 
@@ -29,6 +46,34 @@
         );
 
       };
+
+      //CHECK AUTH STATUS AND MAKE USER AVAILABLE ON ROOT
+      s.auth = authService;
+      authService.$onAuthStateChanged(function(firebaseUser){
+
+        let refUsers = firebase.database().ref().child("users");
+        s.users = $firebaseArray(refUsers);
+        s.users.$loaded()
+          .then(function() {
+            rs.loggedIn = s.users.$getRecord(firebaseUser.uid);
+            Object.keys(rs.loggedIn)
+              .forEach(function(key,index) {
+                if (key.charAt(0) === '-'){
+                  rs.loggedInUsersKey = key;
+                  rs.loggedInUser = rs.loggedIn[key];
+                  rs.$broadcast('loggedInUserBroadcast',rs.loggedInUser);
+                };
+            });
+          });
+
+      });
+
+
+
+
+
+
+
 
     }]);
 

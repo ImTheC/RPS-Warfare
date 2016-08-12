@@ -1,4 +1,32 @@
 
 
-<h1>all games</h1>
+
+
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <p>
+      <b>RPS Warfare</b>
+    </p>
+
+    <md-button ng-click="games.openSidebar()">
+      <md-icon class="mdi mdi-plus-circle"></md-icon>
+      START NEW GAME
+    </md-button>
+
+    <div ng-show="loggedInUser">
+      <p>Hello {{ loggedInUser.displayName }}! <md-button ng-click="auth.$signOut()">Sign Out</md-button></p>
+    </div>
+
+    <div ng-hide="loggedInUser">
+      <md-button ng-click="games.openRightSidebar()">
+        <md-icon class="mdi mdi-plus-circle"></md-icon>
+        LOGIN TO PLAY
+      </md-button>
+    </div>
+
+  </div>
+</md-toolbar>
+
+
+
 <ui-view></ui-view>

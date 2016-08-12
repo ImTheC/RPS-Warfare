@@ -1,6 +1,6 @@
 <h1>USERS</h1>
 
-<div ng-show="firebaseUser">
+  <div ng-show="firebaseUser">
     <p>Hello {{ firebaseUser.providerData[0].displayName }}!</p>
     <md-button ng-click="auth.$signOut()">Sign Out</md-button>
   </div>
@@ -20,8 +20,6 @@ Password: <input type="text" ng-model="password">
   <div>
     <md-button ng-click="signInWithEmail(email,password)">Sign In</md-button>
   </div>
-
-  <!-- <button ng-click="deleteUser()">Delete User</button> -->
 
   <p ng-if="message">Message: <strong>{{ message }}</strong></p>
   <p ng-if="error">Error: <strong>{{ error }}</strong></p>
