@@ -4,75 +4,139 @@
 		<meta charset="UTF-8">
 		<title>RPS Warfare</title>
 		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<!-- <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css" media="screen,projection"> -->
+		<link href="https://fonts.googleapis.com/css?family=Roboto:400,700|Nova+Square" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="webapp/css/hexgrid.css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="webapp/css/circleMenu.css" media="screen" title="no title" charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	</head>
 
 	<body>
 
-		<ul class="categories clr">
-			<li class="pusher"></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li class="pusher"></li>
+		<div class="modalbackground hide"></div>
 
+		<div id="message" class="message">
+			<p class="flow-text"></p>
+		</div>
+
+		<section id="reserve" class="menu-wrapper hide">
+			<button id="close" class="menu-btn">
+		    <i id="centerLock"></i>
+		    <i></i>
+		    <i></i>
+		    <span class="ripple"></span>
+		  </button>
+
+		  <ul class="menu">
+				<li class="menuitem-wrapper">
+					<div id="unit2" class="icon-holder hide">
+						<a href="#" class="menu-item">
+								<img class="icon" src="webapp/images/rock.png" alt="rock">
+						</a>
+					</div>
+					<svg class="circle-holder">
+						<circle r="88" cx="50%" cy="50%" fill="none">
+						</circle>
+					</svg>
+				</li>
+		    <li class="menuitem-wrapper">
+		      <div id="unit3" class="icon-holder hide">
+		        <a href="#" class="menu-item">
+		            <img class="icon" src="webapp/images/paper.png" alt="rock">
+		        </a>
+		      </div>
+		      <svg class="circle-holder">
+		        <circle r="88" cx="50%" cy="50%" fill="none">
+		        </circle>
+		      </svg>
+		    </li>
+		    <li class="menuitem-wrapper">
+		      <div id="unit4" class="icon-holder hide">
+		        <a href="#" class="menu-item">
+		            <img class="icon" src="webapp/images/scissors.png" alt="rock">
+		        </a>
+		      </div>
+		      <svg class="circle-holder">
+		        <circle r="88" cx="50%" cy="50%" fill="none">
+		        </circle>
+		      </svg>
+		    </li>
+		    <li class="menuitem-wrapper">
+		      <div id="unit5" class="icon-holder hide">
+		        <a href="#" class="menu-item">
+		            <img class="icon" src="webapp/images/rock.png" alt="rock">
+		        </a>
+		      </div>
+		      <svg class="circle-holder">
+		        <circle r="88" cx="50%" cy="50%" fill="none">
+		        </circle>
+		      </svg>
+		    </li>
+		    <li class="menuitem-wrapper">
+		      <div id="unit6" class="icon-holder hide">
+		        <a href="#" class="menu-item">
+		            <img class="icon" src="webapp/images/paper.png" alt="rock">
+		        </a>
+		      </div>
+		      <svg class="circle-holder">
+		        <circle r="88" cx="50%" cy="50%" fill="none">
+		        </circle>
+		      </svg>
+		    </li>
+		    <li class="menuitem-wrapper">
+		      <div id="unit1" class="icon-holder hide">
+		        <a href="#" class="menu-item">
+		            <img class="icon" src="webapp/images/scissors.png" alt="rock">
+		        </a>
+		      </div>
+		      <svg class="circle-holder">
+		        <circle r="88" cx="50%" cy="50%" fill="none">
+		        </circle>
+		      </svg>
+		    </li>
+		  </ul>
+		</section>
+
+		<ul id="grid" class="categories clr">
 			<!-- <li class="pusher"></li>
-			<li class="pusher"></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li class="pusher"></li>
-			<li class="pusher"></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li><div></div></li>
-			<li class="pusher"></li>
-			<li class="pusher"></li>
-			<li class="pusher"></li>
-			<li><div></div></li>
-			<li><div></div></li> -->
-<!--
-			<li class="pusher"></li>
-			<li><div></div></li>
-		  <li class="up"><span></span></li>
-		  <li><div></div></li> -->
-
+			<li has-ripple="true"><div id="hex35">35</div></li>
+			<li has-ripple="true"><div id="hex36">36</div></li>
+			<li has-ripple="true"><div id="hex37">37</div></li>
+			<li has-ripple="true"><div id="hex38">38</div></li>
+			<li has-ripple="true"><div id="hex30">30</div></li>
+			<li has-ripple="true"><div id="hex31">31</div></li>
+			<li has-ripple="true"><div id="hex32">32</div></li>
+			<li has-ripple="true"><div id="hex33">33</div></li>
+			<li has-ripple="true"><div id="hex34">34</div></li>
+			<li has-ripple="true"><div id="hex25">25</div></li>
+			<li has-ripple="true"><div id="hex26">26</div></li>
+			<li has-ripple="true"><div id="hex27">27</div></li>
+			<li has-ripple="true"><div id="hex28">28</div></li>
+			<li has-ripple="true"><div id="hex29">29</div></li>
+			<li has-ripple="true"><div id="hex20">20</div></li>
+			<li has-ripple="true"><div id="hex21">21</div></li>
+			<li has-ripple="true"><div id="hex22">22</div></li>
+			<li has-ripple="true"><div id="hex23">23</div></li>
+			<li has-ripple="true"><div id="hex24">24</div></li>
+			<li has-ripple="true"><div id="hex15">15</div></li>
+			<li has-ripple="true"><div id="hex16">16</div></li>
+			<li has-ripple="true"><div id="hex17">17</div></li>
+			<li has-ripple="true"><div id="hex18">18</div></li>
+			<li has-ripple="true"><div id="hex19">19</div></li>
+			<li has-ripple="true"><div id="hex10">10</div></li>
+			<li has-ripple="true"><div id="hex11">11</div></li>
+			<li has-ripple="true"><div id="hex12">12</div></li>
+			<li has-ripple="true"><div id="hex13">13</div></li>
+			<li has-ripple="true"><div id="hex14">14</div></li>
+			<li has-ripple="true"><div id="hex5">5</div></li>
+			<li has-ripple="true"><div id="hex6">6</div></li>
+			<li has-ripple="true"><div id="hex7">7</div></li>
+			<li has-ripple="true"><div id="hex8">8</div></li>
+			<li has-ripple="true"><div id="hex9">9</div></li>
+			<li has-ripple="true"><div id="hex1">1</div></li>
+			<li has-ripple="true"><div id="hex2">2</div></li>
+			<li has-ripple="true"><div id="hex3">3</div></li>
+			<li has-ripple="true"><div id="hex4">4</div></li>
+			<li class="pusher"></li> -->
 		</ul>
 
 		<div class="spacer"></div>
@@ -80,6 +144,5 @@
 	</body>
 
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
-	<script type="text/javascript" src="webapp/js/bundle.js"></script>
+	<script type="text/javascript" src="webapp/js/game.js"></script>
 </html>

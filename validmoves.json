@@ -72,12 +72,12 @@
 						 "hex16": true
 					 },
 		"hex12": {
-						 "hex6": true,
+						 "hex8": true,
 						 "hex7": true,
 						 "hex11": true,
 						 "hex13": true,
 						 "hex18": true,
-						 "hex19": true
+						 "hex17": true
 					 },
 		"hex13": {
 						 "hex7": true,
@@ -257,5 +257,4 @@
 						 "hex34": true,
 						 "hex37": true
 					 },
-
-}
+		}

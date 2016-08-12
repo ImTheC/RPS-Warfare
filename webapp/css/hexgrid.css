@@ -1,10 +1,7 @@
 body{
+	font-family: 'Roboto', sans-serif;
   background:rgb(123, 158, 158);
   perspective:1000px;
-}
-
-.spacer {
-	height: 200px;
 }
 
 .categories{
@@ -13,13 +10,16 @@ body{
   transform:rotateX(45deg);
   transform-style: preserve-3d;
 }
+
 .categories:after{
   content:"";
   display:block;
   clear:both;
 }
+
 .categories li{
   position:relative;
+	cursor:pointer;
   list-style-type:none;
   width:17.364%; /* = (100-4.5) / 5.5 */
   padding-bottom: 20.05%; /* =  width /0.866 */
@@ -115,9 +115,202 @@ body{
 }
 
 .categories .up img{
-  width:100%; height:auto;
+
+	margin-top: 0px;
+  width:80%; height:auto;
   position:absolute;
-  transform-origin: 50% 100%;
+  transform-origin: 40% 100%;
   transform: rotateX(-45deg);
-  z-index:1;
+  z-index:3;
+}
+
+.spacer {
+	height: 200px;
+}
+
+.categories li div.canMove{
+	background-color:rgba(0,255,0,.5) !important;
+}
+
+.categories li div.canMove:hover{
+	background-color:rgba(0,100,0,.5);
+}
+
+.categories li div.selected{
+	background-color:rgba(0,0,255,.5);
+}
+
+
+img.icon {
+	height: 40px;
+}
+
+.message {
+	font-family: 'Nova Square', cursive;
+	position: absolute;
+	display: none;
+	left: 15vw;
+	width: 70vw;
+	/*margin-left: 5%;
+	margin-right: 5%;*/
+	background-color: white;
+	border: 1px black solid;
+	border-radius: 10px;
+	box-shadow: 5px 5px 5px rgba(0,0,0,0.23);
+}
+
+.message p {
+	position: relative;
+	height: 95%;
+	width: 95%;
+	left: 2.5%;
+	top: -10px;
+}
+
+.flow-text {
+  font-weight: 300;
+}
+
+@media only screen and (min-width: 360px) {
+  .flow-text {
+    font-size: 1.2rem;
+  }
+}
+
+@media only screen and (min-width: 390px) {
+  .flow-text {
+    font-size: 1.224rem;
+  }
+}
+
+@media only screen and (min-width: 420px) {
+  .flow-text {
+    font-size: 1.248rem;
+  }
+}
+
+@media only screen and (min-width: 450px) {
+  .flow-text {
+    font-size: 1.272rem;
+  }
+}
+
+@media only screen and (min-width: 480px) {
+  .flow-text {
+    font-size: 1.296rem;
+  }
+}
+
+@media only screen and (min-width: 510px) {
+  .flow-text {
+    font-size: 1.32rem;
+  }
+}
+
+@media only screen and (min-width: 540px) {
+  .flow-text {
+    font-size: 1.344rem;
+  }
+}
+
+@media only screen and (min-width: 570px) {
+  .flow-text {
+    font-size: 1.368rem;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .flow-text {
+    font-size: 1.392rem;
+  }
+}
+
+@media only screen and (min-width: 630px) {
+  .flow-text {
+    font-size: 1.416rem;
+  }
+}
+
+@media only screen and (min-width: 660px) {
+  .flow-text {
+    font-size: 1.44rem;
+  }
+}
+
+@media only screen and (min-width: 690px) {
+  .flow-text {
+    font-size: 1.464rem;
+  }
+}
+
+@media only screen and (min-width: 720px) {
+  .flow-text {
+    font-size: 1.488rem;
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  .flow-text {
+    font-size: 1.512rem;
+  }
+}
+
+@media only screen and (min-width: 780px) {
+  .flow-text {
+    font-size: 1.536rem;
+  }
+}
+
+@media only screen and (min-width: 810px) {
+  .flow-text {
+    font-size: 1.56rem;
+  }
+}
+
+@media only screen and (min-width: 840px) {
+  .flow-text {
+    font-size: 1.584rem;
+  }
+}
+
+@media only screen and (min-width: 870px) {
+  .flow-text {
+    font-size: 1.608rem;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .flow-text {
+    font-size: 1.632rem;
+  }
+}
+
+@media only screen and (min-width: 930px) {
+  .flow-text {
+    font-size: 1.656rem;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .flow-text {
+    font-size: 1.68rem;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .flow-text {
+    font-size: 1.2rem;
+  }
+}
+
+.notAllowed {
+	cursor:not-allowed !important;
+};
+
+.clickable {
+
+}
+
+.noTouchy {
+	pointer-events: none;
 }

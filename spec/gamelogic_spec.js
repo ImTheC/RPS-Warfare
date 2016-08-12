@@ -40,7 +40,7 @@ function resetGameState(){
 				},
 				"grid": {
 					"hex1": {
-								 "owner": "blocked"
+								 "owner": null, "type": null, "health": null
 							 },
 					"hex2": {
 								 "owner": null, "type": null, "health": null
@@ -148,7 +148,10 @@ function resetGameState(){
 								 "owner": null, "type": null, "health": null
 							 },
 					"hex37": {
-								 "owner": "blocked"
+								 "owner": null, "type": null, "health": null
+							 },
+				 "hex38": {
+								 "owner": null, "type": null, "health": null
 							 }
 					} // end of grid:
 	};
@@ -213,13 +216,13 @@ function initBattleReady(){
 	gamelogic.gameState.grid.hex34 = {"owner": "player2", "type": "paper", "health": 1};
 
 	gamelogic.gameState.grid.hex19 = {"owner": "player1", "type": "paper", "health": 1};
-	gamelogic.gameState.grid.hex26 = {"owner": "player2", "type": "scissors", "health": 1};
+	gamelogic.gameState.grid.hex22 = {"owner": "player2", "type": "scissors", "health": 1};
 
-	gamelogic.gameState.grid.hex24 = {"owner": "player1", "type": "scissors", "health": 1};
-	gamelogic.gameState.grid.hex30 = {"owner": "player2", "type": "rock", "health": 1};
+	gamelogic.gameState.grid.hex37 = {"owner": "player1", "type": "scissors", "health": 1};
+	gamelogic.gameState.grid.hex38 = {"owner": "player2", "type": "rock", "health": 1};
 
 	gamelogic.gameState.grid.hex21 = {"owner": "player1", "type": "rock", "health": 1};
-	gamelogic.gameState.grid.hex28 = {"owner": "player2", "type": "rock", "health": 1};
+	gamelogic.gameState.grid.hex27 = {"owner": "player2", "type": "rock", "health": 1};
 
 }
 
@@ -280,7 +283,7 @@ describe("vaildMove()", function () {
 	});
 
 	it("should return false is move invalid", function () {
-		expect(gamelogic.validMove("hex5", "hex1")).toEqual(false);
+		expect(gamelogic.validMove("hex5", "hex16")).toEqual(false);
 		expect(gamelogic.validMove("hex5", "hex19")).toEqual(false);
 	});
 
@@ -598,7 +601,7 @@ describe("resolveMove() that has no battle", function () {
 
 		selectedCor = "hex7";
 		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
-		actionCor = "hex13";
+		actionCor = "hex12";
 		objectFromActionCor = gamelogic.gameState.grid[actionCor];
 
 		expect(gamelogic.gameState.gameStatus.AP).toEqual(1); // since prev it block made move
@@ -658,7 +661,7 @@ describe("resolveMove() that has battle", function () {
 
 		selectedCor = "hex34";
 		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
-		actionCor = "hex30";
+		actionCor = "hex38";
 		objectFromActionCor = gamelogic.gameState.grid[actionCor];
 
 		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
