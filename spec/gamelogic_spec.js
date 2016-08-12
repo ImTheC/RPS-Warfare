@@ -30,10 +30,10 @@ function resetGameState(){
 					"currentPlayer": "player1",
 					"mode": "setup",
 					"swaps": {
-						"numberOf": 0,
+						"numberOf": null,
 						"players": {
-							"first": null,
-							"second": null
+							"first": {"player": null, "cor": null},
+							"second": {"player": null, "cor": null}
 						}
 					},
 					"AP": null,
@@ -326,7 +326,14 @@ describe("endTurn()", function () {
 		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
 	});
 
-	it("should reset action points", function () {
+	it("should reset action points to 4 if in setup mode", function () {
+		gamelogic.gameState.gameStatus.mode = "turn";
+		expect(gamelogic.gameState.gameStatus.AP).toEqual(4);
+	});
+
+	it("should reset action points to 2 if in turn mode", function () {
+		gamelogic.gameState.gameStatus.mode = "turn";
+		gamelogic.endTurn();
 		expect(gamelogic.gameState.gameStatus.AP).toEqual(2);
 	});
 
@@ -493,9 +500,9 @@ describe("initSwapOut()", function () {
 	it("should initialize swap mode", function () {
 		gamelogic.initSwapOut("player1", "player2");
 
-		expect(gamelogic.gameState.gameStatus.swaps.players.first).toEqual("player1");
-		expect(gamelogic.gameState.gameStatus.swaps.players.second).toEqual("player2");
-		expect(gamelogic.gameState.gameStatus.swaps.numberOf).toEqual(0);
+		expect(gamelogic.gameState.gameStatus.swaps.players.first.player).toEqual("player1");
+		expect(gamelogic.gameState.gameStatus.swaps.players.second.player).toEqual("player2");
+		expect(gamelogic.gameState.gameStatus.swaps.numberOf).toEqual(2);
 	});
 
 });
@@ -542,9 +549,9 @@ describe("battle()", function () {
 		gamelogic.gameState.grid[actionCor] = p2rock;
 		gamelogic.battle(selectedCor, p1rock, actionCor, p2rock);
 
-		expect(gamelogic.gameState.gameStatus.swaps.players.first).toEqual("player1");
-		expect(gamelogic.gameState.gameStatus.swaps.players.second).toEqual("player2");
-		expect(gamelogic.gameState.gameStatus.swaps.numberOf).toEqual(0);
+		expect(gamelogic.gameState.gameStatus.swaps.players.first.player).toEqual("player1");
+		expect(gamelogic.gameState.gameStatus.swaps.players.second.player).toEqual("player2");
+		expect(gamelogic.gameState.gameStatus.swaps.numberOf).toEqual(2);
 	});
 
 });
