@@ -1087,36 +1087,36 @@ function displayMessage(message, elem){
 	}
 
 
-	(function(){   // setup and put the game into turn mode
-		let game = gamelogic.gameState;
-
-		game.players.player1.reserve.unit1 = null;
-		game.players.player1.reserve.unit2 = null;
-		game.players.player1.reserve.unit3 = null;
-		game.players.player1.reserve.unit4 = null;
-
-		game.grid.hex16 = {"owner": "player1", "type": "scissors", "health": 1};
-		game.grid.hex17 = {"owner": "player1", "type": "rock", "health": 1};
-		game.grid.hex18 = {"owner": "player1", "type": "paper", "health": 1};
-		game.grid.hex19 = {"owner": "player1", "type": "scissors", "health": 1};
-
-
-		game.players.player2.reserve.unit1 = null;
-		game.players.player2.reserve.unit2 = null;
-		game.players.player2.reserve.unit3 = null;
-		game.players.player2.reserve.unit4 = null;
-
-		game.grid.hex20 = {"owner": "player2", "type": "scissors", "health": 1};
-		game.grid.hex21 = {"owner": "player2", "type": "rock", "health": 1};
-		game.grid.hex22 = {"owner": "player2", "type": "paper", "health": 1};
-		game.grid.hex23 = {"owner": "player2", "type": "scissors", "health": 1};
-
-		game.gameStatus.mode = "turn";
-		game.gameStatus.AP = 2;
-
-		$("#grid").off("click", "[has-ripple='true']"); // TURN OFF reserveClickEvent
-
-	})();
+	// (function(){   // setup and put the game into turn mode
+	// 	let game = gamelogic.gameState;
+	//
+	// 	game.players.player1.reserve.unit1 = null;
+	// 	game.players.player1.reserve.unit2 = null;
+	// 	game.players.player1.reserve.unit3 = null;
+	// 	game.players.player1.reserve.unit4 = null;
+	//
+	// 	game.grid.hex16 = {"owner": "player1", "type": "scissors", "health": 1};
+	// 	game.grid.hex17 = {"owner": "player1", "type": "rock", "health": 1};
+	// 	game.grid.hex18 = {"owner": "player1", "type": "paper", "health": 1};
+	// 	game.grid.hex19 = {"owner": "player1", "type": "scissors", "health": 1};
+	//
+	//
+	// 	game.players.player2.reserve.unit1 = null;
+	// 	game.players.player2.reserve.unit2 = null;
+	// 	game.players.player2.reserve.unit3 = null;
+	// 	game.players.player2.reserve.unit4 = null;
+	//
+	// 	game.grid.hex20 = {"owner": "player2", "type": "scissors", "health": 1};
+	// 	game.grid.hex21 = {"owner": "player2", "type": "rock", "health": 1};
+	// 	game.grid.hex22 = {"owner": "player2", "type": "paper", "health": 1};
+	// 	game.grid.hex23 = {"owner": "player2", "type": "scissors", "health": 1};
+	//
+	// 	game.gameStatus.mode = "turn";
+	// 	game.gameStatus.AP = 2;
+	//
+	// 	$("#grid").off("click", "[has-ripple='true']"); // TURN OFF reserveClickEvent
+	//
+	// })();
 
 	checkForMsgs();
 	renderGameState();
