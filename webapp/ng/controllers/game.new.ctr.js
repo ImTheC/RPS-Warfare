@@ -52,11 +52,11 @@
       function initGame(){
         console.log('click got me to initGame function');
         let pid1 = 'playa23';
-        let pname1 = 'Fee Fi Fo Nana';
+        let pname1 = 'Chris Anderson';
         let pid2 = 'playa24';
-        let pname2 = 'Taco Banana';
+        let pname2 = 'Chris Castro';
         getGameService.newGame(pid1,pname1,pid2,pname2);
-
+        closeSidebar();
       };
 
       function showToast(message){

@@ -51,6 +51,8 @@
 
             s.firebaseUser.providerData[0].dateCreated = firebase.database.ServerValue.TIMESTAMP;
 
+            s.firebaseUser.providerData[0].inGames = [''];
+
             if (s.firebaseUser !== null && s.firebaseUser.providerData[0].providerId === 'password'){
 
               let uid = s.firebaseUser.uid;
@@ -103,6 +105,8 @@
             s.firebaseUser.providerData[0].score = 0;
 
             s.firebaseUser.providerData[0].dateCreated = firebase.database.ServerValue.TIMESTAMP;
+
+            s.firebaseUser.providerData[0].inGames = [''];
 
             let uid = s.firebaseUser.uid;
 
