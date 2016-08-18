@@ -15,8 +15,20 @@
     .service("addUserService", ["$firebaseArray",
       function($firebaseArray) {
 
-        this.toUserObj = function(uid){
-          let ref = firebase.database().ref().child("users").child(uid);
+        this.addToDb = function(node){
+          let ref = firebase.database().ref().child(node);
+          // .child(uid);
+          return $firebaseArray(ref);
+        }
+
+      }
+    ])
+
+    .service("addUserMapService", ["$firebaseArray",
+      function($firebaseArray) {
+
+        this.addToDb = function(key){
+          let ref = firebase.database().ref().child('usermap').child(key);
           return $firebaseArray(ref);
         }
 

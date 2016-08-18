@@ -6,8 +6,8 @@
   angular
     .module('rpsApp')
     .controller('usersCtr',
-            ['$scope','$state','$http','$mdToast','$mdDialog','$firebaseObject','$firebaseArray','authService','addUserService',
-      function($scope, $state, $http, $mdToast, $mdDialog, $firebaseObject, $firebaseArray, authService, addUserService){
+            ['$scope','$state','$http','$mdToast','$mdDialog','$firebaseObject','$firebaseArray','authService','addUserService','addUserMapService',
+      function($scope, $state, $http, $mdToast, $mdDialog, $firebaseObject, $firebaseArray, authService, addUserService, addUserMapService){
 
       let t = this;
       let s = $scope;
@@ -15,6 +15,7 @@
 
       //initialize functions
       s.signInWithEmail = signInWithEmail;
+      s.facebookSignin = facebookSignin;
 
       //vars
       s.users = {};
@@ -78,53 +79,114 @@
           });
       };
 
-      //SOCIAL SIGNUPS
-      s.auth = authService;
-      authService.$onAuthStateChanged(function(firebaseUser){
-        s.firebaseUser = firebaseUser;
 
-        if (s.firebaseUser && s.firebaseUser.providerData[0].providerId === 'password'){
-          Object.defineProperties(s.firebaseUser.providerData[0],{
-            displayName: { writable:true },
-            email: { writable:true }
-          });
+      // function facebookSignin(){
+      //
+      //   let provider = new firebase.auth.FacebookAuthProvider();
+      //
+      //   firebase.auth().signInWithPopup(provider)
+      //
+      //     .then(function(result) {
+      //       let token = result.credential.accessToken;
+      //       console.log(token);
+      //       s.firebaseUser = result.user;
+      //       console.log(s.firebaseUser);
+      //     })
+      //     .catch(function(error) {
+      //       console.log(error);
+      //     });
+      //
+      // }
 
-          s.firebaseUser.providerData[0].displayName;
-          $scope.$watch('firebaseUser.providerData[0].displayName', function(){
-              if (s.firebaseUser){
-                s.firebaseUser.providerData[0].displayName = s.firebaseUser.providerData[0].email.replace(/@.*/, '');
-              }
+      function facebookSignin(){
+        authService.$signInWithPopup("facebook")
+        .then(function(result) {
+          let userURL = `https://rps-warfare.firebaseio.com/usermap/${result.user.uid}.json`;
+          $http({
+            method: 'GET',
+            url: userURL
+          })
+          .then(function(data){
+            console.log('http get data request: ',data.data);
+            if (data.data === null){
+                  console.log('data was null, therefore saving new record to DB');
+                  let newUserObj = result.user.providerData[0];
+                  newUserObj.dateCreated = firebase.database.ServerValue.TIMESTAMP;
+                  newUserObj.score = 0;
+                  newUserObj.inGames = [''];
+                  newUserObj.aid = result.user.uid;
+                  newUserObj.token = result.credential.accessToken;
+
+                  addUserService.addToDb('users').$add(newUserObj)
+                  .then(function(ref) {
+                    s.firebaseUser = newUserObj;
+                    console.log('this was saved to firebaseUser and to scope: ',newUserObj);
+                    let value = ref.key;
+                    let key = newUserObj.aid;
+                    addUserMapService.addToDb(key).$add(value)
+                      .then(function(ref){
+                        console.log('record added to usermap');
+                      },function(error){
+                        console.log(error);
+                      });
+                  }, function(error) {
+                    console.log("Oops, the following went wrong: ", error);
+                  });
+            } else {
+              console.log('data exists already, therefore no new record being created');
+              return;
             }
-          );
-        }
+          });
+        })
+        .catch(function(error) {
+          console.error("Authentication failed: ", error);
+        });
+      }
 
-        if (s.firebaseUser){
 
-          if (s.firebaseUser.providerData[0].providerId !== "password"){
 
-            s.firebaseUser.providerData[0].score = 0;
-
-            s.firebaseUser.providerData[0].dateCreated = firebase.database.ServerValue.TIMESTAMP;
-
-            s.firebaseUser.providerData[0].inGames = [''];
-
-            let uid = s.firebaseUser.uid;
-
-            let providerData = s.firebaseUser.providerData[0];
-
-            addUserService.toUserObj(uid).$add(providerData)
-            .then(function(ref) {
-              console.log('Social Signup Saved');
-            }, function(error) {
-              console.log("Oops, the following went wrong: ", error);
-            });
-
-          }
-        } else {
-          console.log('is logged out');
-        }
-
-      });
+      //SOCIAL SIGNUPS
+      // s.auth = authService;
+      // authService.$onAuthStateChanged(function(firebaseUser){
+      //   s.tempUser = firebaseUser;
+      //
+      //   if (s.tempUser && s.tempUser.providerData[0].providerId === 'password'){
+      //     Object.defineProperties(s.tempUser.providerData[0],{
+      //       displayName: { writable:true },
+      //       email: { writable:true }
+      //     });
+      //
+      //     s.tempUser.providerData[0].displayName = s.tempUser.providerData[0].email.replace(/@.*/, '');
+      //
+      //   }
+      //
+      //   if (s.tempUser){
+      //
+      //     if (s.tempUser.providerData[0].providerId !== "password"){
+      //
+      //       s.tempUser.providerData[0].score = 0;
+      //
+      //       s.tempUser.providerData[0].dateCreated = firebase.database.ServerValue.TIMESTAMP;
+      //
+      //       s.tempUser.providerData[0].inGames = [''];
+      //
+      //       let uid = s.tempUser.uid;
+      //
+      //       let providerData = s.tempUser.providerData[0];
+      //
+      //       addUserService.toUserObj(uid).$add(providerData)
+      //       .then(function(ref) {
+      //         console.log('Social Signup Saved');
+      //       }, function(error) {
+      //         console.log("Oops, the following went wrong: ", error);
+      //       });
+      //
+      //     }
+      //   } else {
+      //     console.log('is logged out');
+      //   }
+      //
+      // });
 
       function signInWithEmail(email,password){
         authService.$signInWithEmailAndPassword(email,password)
