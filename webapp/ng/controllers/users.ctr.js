@@ -21,6 +21,7 @@
       s.users = {};
       s.email;
       s.password;
+      s.auth = authService;
 
       //EMAIL SIGNUPS
       s.createUser = function() {
@@ -98,6 +99,7 @@
       //
       // }
 
+      //SOCIAL SIGNUP
       function facebookSignin(){
         authService.$signInWithPopup("facebook")
         .then(function(result) {
@@ -115,16 +117,29 @@
                   newUserObj.score = 0;
                   newUserObj.inGames = [''];
                   newUserObj.aid = result.user.uid;
+                  s.aid = newUserObj.aid;
                   newUserObj.token = result.credential.accessToken;
 
                   addUserService.addToDb('users').$add(newUserObj)
                   .then(function(ref) {
-                    s.firebaseUser = newUserObj;
+                    s.newUserObjKey = ref.key;
+                    console.log('ref after user object added to /users ',ref);
+                    console.log('newUserObjKey after user object added to /users ',s.newUserObjKey);
                     console.log('this was saved to firebaseUser and to scope: ',newUserObj);
                     let value = ref.key;
                     let key = newUserObj.aid;
                     addUserMapService.addToDb(key).$add(value)
                       .then(function(ref){
+                        let usermapKey = ref.key;
+                        let pathURL = `https://rps-warfare.firebaseio.com/users/${s.newUserObjKey}.json`;
+                        $http({
+                          method: 'PATCH',
+                          url: pathURL,
+                          data: {
+                            usermapKey: usermapKey
+                          }
+                        })
+                          .then(function(){console.log('made it back');},function(error){console.log(error.code,error.message);});
                         console.log('record added to usermap');
                       },function(error){
                         console.log(error);
@@ -145,48 +160,16 @@
 
 
 
-      //SOCIAL SIGNUPS
-      // s.auth = authService;
-      // authService.$onAuthStateChanged(function(firebaseUser){
-      //   s.tempUser = firebaseUser;
-      //
-      //   if (s.tempUser && s.tempUser.providerData[0].providerId === 'password'){
-      //     Object.defineProperties(s.tempUser.providerData[0],{
-      //       displayName: { writable:true },
-      //       email: { writable:true }
-      //     });
-      //
-      //     s.tempUser.providerData[0].displayName = s.tempUser.providerData[0].email.replace(/@.*/, '');
-      //
-      //   }
-      //
-      //   if (s.tempUser){
-      //
-      //     if (s.tempUser.providerData[0].providerId !== "password"){
-      //
-      //       s.tempUser.providerData[0].score = 0;
-      //
-      //       s.tempUser.providerData[0].dateCreated = firebase.database.ServerValue.TIMESTAMP;
-      //
-      //       s.tempUser.providerData[0].inGames = [''];
-      //
-      //       let uid = s.tempUser.uid;
-      //
-      //       let providerData = s.tempUser.providerData[0];
-      //
-      //       addUserService.toUserObj(uid).$add(providerData)
-      //       .then(function(ref) {
-      //         console.log('Social Signup Saved');
-      //       }, function(error) {
-      //         console.log("Oops, the following went wrong: ", error);
-      //       });
-      //
-      //     }
-      //   } else {
-      //     console.log('is logged out');
-      //   }
-      //
-      // });
+      //Logged In
+      s.auth.$onAuthStateChanged(function(firebaseUser){
+
+        if (firebaseUser){
+          s.firebaseUser = firebaseUser;
+        } else {
+          s.firebaseUser = null;
+        }
+
+      });
 
       function signInWithEmail(email,password){
         authService.$signInWithEmailAndPassword(email,password)
