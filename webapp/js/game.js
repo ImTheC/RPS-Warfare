@@ -42,7 +42,6 @@ $(function(){
 
 		passTurn: function ( passTo ) {
 			gamelogic.gameState.gameStatus.currentPlayer = passTo;
-			checkForMsgs();
 			renderGameState();
 		},
 
@@ -50,6 +49,9 @@ $(function(){
 			if ( gamelogic.gameState.gameStatus.mode === "setup" ) {
 				gamelogic.gameState.gameStatus.AP = 4;
 				gamelogic.passTurn( gamelogic.findNextPlayer() );
+				elem.text("");
+				clearTimeout(messageTimer);
+				$("#message").fadeIn( "slow", displayMessage( gamelogic.gameState.gameStatus.currentPlayer + ", click anywhere on the home row to place your units. Try to remember them. You won't be able to peek until a battle.", elem));
 			} else {
 				gamelogic.gameState.gameStatus.AP = 2;
 				gamelogic.passTurn( gamelogic.findNextPlayer() );
@@ -114,6 +116,10 @@ $(function(){
 					break;
 			}
 
+			elem.text("");
+			clearTimeout(messageTimer);
+			$("#message").fadeIn( "slow", displayMessage( outcome.winner[1].type + " blows up " + outcome.loser[1].type + "!", elem));
+
 			return outcome;
 		},
 
@@ -129,6 +135,10 @@ $(function(){
 		},
 
 		endSwap: function () {
+			elem.text("");
+			clearTimeout(messageTimer);
+			displayMessage( gamelogic.gameState.gameStatus.currentPlayer + "\'s turn! You have " + gamelogic.gameState.gameStatus.AP + " action points.", elem);
+			gamelogic.passTurn( gamelogic.gameState.gameStatus.swaps.players.first.player );
 			gamelogic.gameState.gameStatus.swaps.players.first.player = null;
 			gamelogic.gameState.gameStatus.swaps.players.first.cor = null;
 			gamelogic.gameState.gameStatus.swaps.players.second.player = null;
@@ -159,15 +169,16 @@ $(function(){
 			if ( winner === loser ) {
 				elem.text("");
 				clearTimeout(messageTimer);
-				displayMessage("You two are evenly matched. Swap from your reserve!", elem);
+				displayMessage("You two are evenly matched with your " + attacker[1].type + ". ", elem);
+				//+ attacker[1].owner + ", swap from your reserve!"  // <-- Put back in for swap
 				gamelogic.useAP();
-				gamelogic.initSwapOut(objectFromSelectedCor.owner, objectFromActionCor.owner);
+				// gamelogic.initSwapOut(objectFromSelectedCor.owner, objectFromActionCor.owner);
 			} else {
 				let died = gamelogic.loser(loser[0], loser[1]); // loser(loserCor, loserObj)
 
 				elem.text("");
 				clearTimeout(messageTimer);
-				displayMessage( players[loser[1].owner].name + " was decimated!! " + players[winner[1].owner].name + " wins!!", elem);
+				displayMessage( players[loser[1].owner].name + "\'s " + loser[1].type + " was decimated!! " + players[winner[1].owner].name + "\'s " + winner[1].type + " reign victorious!!", elem);
 				if ( winner === attacker && died ) {
 					gamelogic.move( winner[1], winner[0], loser[0] ); // move (winnerObj, winnerCor, loserCor)
 				} else {
@@ -704,14 +715,11 @@ $(function(){
 		if ( mode === "turn") {
 			if ( $(this).hasClass("canMove") ) {
 				actionCor = $(this).attr('id');
-				console.log("ACTION:", actionCor);
 			} else {
 				selectedCor = $(this).attr('id');
-				console.log("SELECTED:",selectedCor);
 			}
 		} else {
 			selectedCor = $(this).attr('id');
-			console.log("SELECTED:",selectedCor);
 		}
 		renderGameState();
 		if ( mode != "swap" ){
@@ -732,7 +740,6 @@ $(function(){
 
 	function reserveMenuClickEventOn(){
 		$("#grid").on("click", "[has-ripple='true']", function (ev) {
-			console.log(selectedCor);
 			if ( !$(this).find("#"+selectedCor).hasClass("notAllowed") ) {
 				if ( $('.menu').hasClass('open') ) {
 					$('#close').toggleClass('clicked');
@@ -784,7 +791,6 @@ $(function(){
 
 					if ( gamelogic.gameState.gameStatus.swaps.numberOf === 2 ) {
 						characterToPutAway = gamelogic.gameState.grid[gamelogic.gameState.gameStatus.swaps.players.first.cor].type;
-						console.log("PUT THIS AWAY:", characterToPutAway);
 							for ( let unitNum in unitList ) {
 								if ( unitList[unitNum] === characterToPutAway && firstMatch) {
 									gamelogic.gameState.players[gamelogic.gameState.gameStatus.swaps.players.first.player].reserve[unitNum] = unitList[unitNum];
@@ -811,17 +817,19 @@ $(function(){
 					    }, 100);
 
 							gamelogic.gameState.gameStatus.swaps.numberOf -= 1;
-							console.log("SWAPS:", gamelogic.gameState.gameStatus.swaps.numberOf);
 							if ( gamelogic.gameState.gameStatus.swaps.numberOf === 0 ) {
-								gamelogic.passTurn( gamelogic.gameState.gameStatus.swaps.players.first.player );
+
 								gamelogic.endSwap();
+
 							} else {
+								elem.text("");
+								clearTimeout(messageTimer);
+								displayMessage(gamelogic.gameState.gameStatus.swaps.players.second.player + "! Now you swap from your reserve!", elem);
 								gamelogic.passTurn(gamelogic.gameState.gameStatus.swaps.players.second.player );
 							}
 
 					} else {
 						characterToPutAway = gamelogic.gameState.grid[gamelogic.gameState.gameStatus.swaps.players.second.cor].type;
-						console.log("PUT THIS AWAY:", characterToPutAway);
 							for ( let unitNum in unitList ) {
 								if ( unitList[unitNum] === characterToPutAway && firstMatch) {
 									gamelogic.gameState.players[gamelogic.gameState.gameStatus.swaps.players.second.player].reserve[unitNum] = unitList[unitNum];
@@ -847,7 +855,6 @@ $(function(){
 							}, 100);
 
 							gamelogic.gameState.gameStatus.swaps.numberOf -= 1;
-							console.log("SWAPS:", gamelogic.gameState.gameStatus.swaps.numberOf);
 							if ( gamelogic.gameState.gameStatus.swaps.numberOf === 0 ) {
 								gamelogic.passTurn( gamelogic.gameState.gameStatus.swaps.players.first.player );
 								gamelogic.endSwap();
@@ -885,6 +892,7 @@ $(function(){
 						$('#reserve').toggleClass('hide');
 						$('.modalbackground').toggleClass('hide');
 			    }, 100);
+					renderGameState();
 				}
 		  });
 		}); // END OF RESERVE MENU CLICK HANDLER
@@ -918,13 +926,13 @@ function displayMessage(message, elem){
 		if ( mode === "setup" ) {
 			elem.text("");
 			clearTimeout(messageTimer);
-			$("#message").fadeIn( "slow", displayMessage( players[currentPlayer].name + ", click anywhere on the highlighted home row to place your units.", elem));
+			$("#message").fadeIn( "slow", displayMessage( players[currentPlayer].name + ", click anywhere on the home row to place your units. Try to remember them. You won't be able to peek until a battle.", elem));
 			if ( currentPlayer === "player1" ) {
 			}
 		} else if ( mode === "turn" ) {
 			elem.text("");
 			clearTimeout(messageTimer);
-			$("#message").fadeIn( "slow", displayMessage( players[currentPlayer].name + ", click one of your units and choose where to move or attack.", elem));
+			$("#message").fadeIn( "slow", displayMessage( players[currentPlayer].name + ", click one of your units and choose where to move or attack. You have " + ap + " action points to use.", elem));
 		}
 	} // ^^^^^^ END OF CHECK MESSAGES ^^^^^^
 
@@ -983,6 +991,11 @@ function displayMessage(message, elem){
 					} else {
 						if ( gamelogic.findNextPlayer(currentPlayer) === "player1" ) {
 							gamelogic.gameState.gameStatus.mode = "turn";
+
+							elem.text("");
+							clearTimeout(messageTimer);
+							$("#message").fadeIn( "slow", displayMessage( gamelogic.findNextPlayer(currentPlayer) + ", click one of your units and choose where to move or attack. You have " + 2 + " action points to use.", elem));
+
 							moveClickEventOn();
 							$("#grid").off("click", "[has-ripple='true']"); // TURN OFF reserveClickEvent
 						}
@@ -1057,16 +1070,11 @@ function displayMessage(message, elem){
 					} else {
 						$("#"+hex).addClass("notAllowed");
 					}
-//gamelogic.gameState.players[gridHex.owner].avatarLink
-					$("#"+hex).append("<img src='" + imageList[gridHex.type] + "' alt='Unit is Here'/>");
-
-					// console.log(hex, "has", gridHex.owner, gridHex.type, gridHex.health);
-				} else {
-					// console.log("Empty!");
-				}
+//imageList[gridHex.type]
+					$("#"+hex).append("<img src='" + gamelogic.gameState.players[gridHex.owner].avatarLink + "' alt='Unit is Here'/>");
+					}
 		}
 
-		console.log("Mode =", mode, " - ", currentPlayer, "has", ap, "AP left.");
 
 		let reserve = gamelogic.gameState.players[currentPlayer].reserve;
 
