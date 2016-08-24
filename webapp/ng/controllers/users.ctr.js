@@ -6,8 +6,8 @@
   angular
     .module('rpsApp')
     .controller('usersCtr',
-            ['$scope','$state','$http','$mdToast','$mdDialog','$firebaseObject','$firebaseArray','authService','addUserService','addUserMapService',
-      function($scope, $state, $http, $mdToast, $mdDialog, $firebaseObject, $firebaseArray, authService, addUserService, addUserMapService){
+            ['$scope','$state','$http','$mdToast','$mdDialog','$firebaseObject','$firebaseArray','$timeout','authService','addUserService','addUserMapService',
+      function($scope, $state, $http, $mdToast, $mdDialog, $firebaseObject, $firebaseArray, $timeout, authService, addUserService, addUserMapService){
 
       let t = this;
       let s = $scope;
@@ -16,12 +16,18 @@
       //initialize functions
       s.signInWithEmail = signInWithEmail;
       s.facebookSignin = facebookSignin;
+      s.resetLoginInputs = resetLoginInputs;
 
       //vars
       s.users = {};
       s.email;
       s.password;
       s.auth = authService;
+
+      function resetLoginInputs(){
+        s.email = '';
+        s.password = '';
+      }
 
       //EMAIL SIGNUPS
       s.createUser = function() {
@@ -127,34 +133,58 @@
       //Logged In
       s.auth.$onAuthStateChanged(function(firebaseUser){
 
+        resetLoginInputs();
+
         if (firebaseUser){
-          s.firebaseUser = firebaseUser;
+
+
+          let ref = firebase.database();
+          let usersRef = ref.ref('users');
+          usersRef.orderByChild('aid').equalTo(firebaseUser.uid).on('child_added', function(snap){
+            $timeout(function(){
+              s.firebaseUser = snap.val();
+              console.log(s.firebaseUser);
+            });
+          });
+
         } else {
           s.firebaseUser = null;
         }
 
       });
 
+      // function signInWithEmail(email,password){
+      //   authService.$signInWithEmailAndPassword(email,password)
+      //   .then(function(firebaseUser) {
+      //     let userURL = `https://rps-warfare.firebaseio.com/usermap/${firebaseUser.uid}.json`;
+      //     $http({
+      //       method: 'GET',
+      //       url: userURL
+      //     })
+      //       .then(function(data){
+      //         let ref = data.data;
+      //         let clonedUsersURL = `https://rps-warfare.firebaseio.com/users/${ref}.json`;
+      //           $http({
+      //             method: 'GET',
+      //             url: clonedUsersURL
+      //           })
+      //             .then(function(data){
+      //               s.firebaseUser = data.data;
+      //               console.log(s.firebaseUser);
+      //             },function(error){ console.log(error); })
+      //       },function(error){ console.log('error message: ', error)});
+      //
+      //   })
+      //   .catch(function(error) {
+      //       console.error("Oops, looks like we couldn't log you in for the following reason: ", error);
+      //     });
+      // }
+
       function signInWithEmail(email,password){
         authService.$signInWithEmailAndPassword(email,password)
         .then(function(firebaseUser) {
-          let userURL = `https://rps-warfare.firebaseio.com/usermap/${firebaseUser.uid}.json`;
-          $http({
-            method: 'GET',
-            url: userURL
-          })
-            .then(function(data){
-              let ref = data.data;
-              let clonedUsersURL = `https://rps-warfare.firebaseio.com/users/${ref}.json`;
-                $http({
-                  method: 'GET',
-                  url: clonedUsersURL
-                })
-                  .then(function(data){
-                    s.firebaseUser = data.data;
-                    console.log(s.firebaseUser);
-                  },function(error){ console.log(error); })
-            },function(error){ console.log('error message: ', error)});
+
+          //do something
 
         })
         .catch(function(error) {
