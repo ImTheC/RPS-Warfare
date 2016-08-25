@@ -60,9 +60,15 @@ body{
   box-sizing:border-box;
   -webkit-backface-visibility:hidden;
 }
+
 .categories li div:hover, .categories .up:hover span:after{
   background-color:rgba(0,0,0,.5);
 }
+
+.categories .up.canMove span:after{
+  background-color:rgba(0,255,0,.5);
+}
+
 .categories li div:before, .categories li div:after{
   content:'';
   position:absolute;
@@ -121,7 +127,7 @@ body{
   position:absolute;
   transform-origin: 40% 100%;
   transform: rotateX(-45deg);
-  z-index:3;
+  z-index:3000;
 }
 
 .spacer {

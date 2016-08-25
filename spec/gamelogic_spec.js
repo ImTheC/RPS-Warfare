@@ -1,4 +1,5 @@
-var gamelogic = require('../webapp/js/gamelogic.js');
+// var gamelogic = require('../webapp/js/gamelogic.js');
+
 
 function resetGameState(){
 	gamelogic.gameState = {
@@ -158,6 +159,8 @@ function resetGameState(){
 }
 
 function initGameReady(){
+
+
 	// Initialize Game Setup, characters placed, no moves made yet
 	gamelogic.gameState.players.player1.reserve = {
 							"unit1": "Rock",
@@ -239,10 +242,25 @@ describe("checking the test", function () {
 
 describe("check to see if can import functions", function () {
 
-	it("should return true", function () {
-		expect(gamelogic.returnTrue()).toEqual(true);
-	});
+	  var gamelogic;
 
+	  // Before each test load our rpsApp module
+	  beforeEach(angular.mock.module('rpsApp'));
+
+	  // Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	  beforeEach(inject(function(_gamelogic_) {
+	    gamelogic = _gamelogic_;
+	  }));
+
+	  // A simple test to verify the gamelogic factory exists
+	  it('should exist', function() {
+	    expect(gamelogic).toBeDefined();
+	  });
+
+		// A simple test to verify the gamelogic factory exists
+		it('should exist', function() {
+			expect(gamelogic).toBeDefined();
+		});
 });
 
 
@@ -250,6 +268,16 @@ describe("check to see if can import functions", function () {
 // TESTS:
 
 describe("randomRPS()", function () {
+
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
 
 	var rpsCheck = function(value) {
 		return ( value === "rock" || value === "paper" || value === "scissors" );
@@ -268,6 +296,16 @@ describe("randomRPS()", function () {
 
 describe("checkGameState()", function () {
 
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
+
 	it("description", function () {
 
 	});
@@ -276,6 +314,16 @@ describe("checkGameState()", function () {
 
 
 describe("vaildMove()", function () {
+
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
 
 	it("should return true is move valid", function () {
 		expect(gamelogic.validMove("hex5", "hex6")).toEqual(true);
@@ -292,13 +340,23 @@ describe("vaildMove()", function () {
 
 describe("findNextPlayer()", function () {
 
-	beforeAll(function () {
-		initGameReady();
-	});
+	var gamelogic;
 
-	afterAll(function () {
-		resetGameState();
-	});
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
+
+	// beforeAll(function () {
+	// 	initGameReady();
+	// });
+	//
+	// afterAll(function () {
+	// 	resetGameState();
+	// });
 
 
 	it("should find the next player", function () {
@@ -315,9 +373,19 @@ describe("findNextPlayer()", function () {
 
 describe("endTurn()", function () {
 
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
+
 	afterAll(function () {
 
-		resetGameState();
+		// resetGameState();
 
 	});
 
@@ -342,9 +410,19 @@ describe("endTurn()", function () {
 
 describe("passTurn()", function () {
 
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
+
 	afterEach(function () {
 
-		resetGameState();
+		// resetGameState();
 
 	});
 
@@ -366,26 +444,20 @@ describe("passTurn()", function () {
 
 describe("useAP()", function () {
 
-	beforeAll(function () {
+	var gamelogic;
 
-		gamelogic.gameState.gameStatus.AP = 2;
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
 
-	});
-
-	afterAll(function () {
-
-		gamelogic.gameState.gameStatus.AP = null;
-
-	});
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
 
 	it("should decrement AP", function () {
+		gamelogic.gameState.gameStatus.AP = 2;
 		gamelogic.useAP();
 		expect(gamelogic.gameState.gameStatus.AP).toEqual(1);
-	});
-
-	it("should pass turn to next player if no AP are left", function () {
-		gamelogic.useAP();
-		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
 	});
 
 });
@@ -393,9 +465,19 @@ describe("useAP()", function () {
 
 describe("move()", function () {
 
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
+
 	beforeAll(function () {
 
-		initGameReady(); // Initialize Game Setup, characters placed, no moves made yet
+		// initGameReady(); // Initialize Game Setup, characters placed, no moves made yet
 
 		var selectedCor,
 				objectFromSelectedCor,
@@ -406,11 +488,41 @@ describe("move()", function () {
 
 	afterAll(function () {
 
-		resetGameState();
+		// resetGameState();
 
 	});
 
 	it("should move character data to new hex", function () {
+
+		// Initialize Game Setup, characters placed, no moves made yet
+		gamelogic.gameState.players.player1.reserve = {
+								"unit1": "Rock",
+								"unit2": false,
+								"unit3": "Paper",
+								"unit4": false,
+								"unit5": false,
+								"unit6": false
+							};
+
+		gamelogic.gameState.players.player2.reserve = {
+								"unit1": false,
+								"unit2": false,
+								"unit3": false,
+								"unit4": "Paper",
+								"unit5": "Scissors",
+								"unit6": false
+							};
+
+		gamelogic.gameState.gameStatus.mode = "turn";
+		gamelogic.gameState.gameStatus.AP = 2;
+		gamelogic.gameState.grid.hex2 = {"owner": "player1", "type": "rock", "health": 1};
+		gamelogic.gameState.grid.hex3 = {"owner": "player1", "type": "scissors", "health": 1};
+		gamelogic.gameState.grid.hex5 = {"owner": "player1", "type": "paper", "health": 1};
+		gamelogic.gameState.grid.hex10 = {"owner": "player1", "type": "scissors", "health": 1};
+		gamelogic.gameState.grid.hex28 = {"owner": "player2", "type": "rock", "health": 1};
+		gamelogic.gameState.grid.hex33 = {"owner": "player2", "type": "paper", "health": 1};
+		gamelogic.gameState.grid.hex35 = {"owner": "player2", "type": "rock", "health": 1};
+		gamelogic.gameState.grid.hex36 = {"owner": "player2", "type": "scissors", "health": 1};
 
 		selectedCor = "hex2";
 		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
@@ -428,6 +540,16 @@ describe("move()", function () {
 
 
 describe("outcome()", function () {
+
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
 
 	var p1rock = {"owner": "player1", "type": "rock", "health": 1};
 	var p2rock = {"owner": "player2", "type": "rock", "health": 1};
@@ -463,6 +585,16 @@ describe("outcome()", function () {
 
 describe("loser()", function () {
 
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
+
 	var p1rock = {"owner": "player1", "type": "rock", "health": 1};
 	var p2rock2 = {"owner": "player2", "type": "rock", "health": 2};
 
@@ -471,7 +603,7 @@ describe("loser()", function () {
 
 	afterEach(function () {
 
-		resetGameState();
+		// resetGameState();
 
 	});
 
@@ -497,6 +629,16 @@ describe("loser()", function () {
 
 describe("initSwapOut()", function () {
 
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
+
 	it("should initialize swap mode", function () {
 		gamelogic.initSwapOut("player1", "player2");
 
@@ -510,6 +652,16 @@ describe("initSwapOut()", function () {
 
 describe("battle()", function () {
 
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
+
 	var p1rock = {"owner": "player1", "type": "rock", "health": 1};
 	var p2rock = {"owner": "player2", "type": "rock", "health": 1};
 	var p2scissors = {"owner": "player2", "type": "scissors", "health": 1};
@@ -521,7 +673,7 @@ describe("battle()", function () {
 
 	afterAll(function () {
 
-		resetGameState();
+		// resetGameState();
 
 	});
 
@@ -559,24 +711,63 @@ describe("battle()", function () {
 
 describe("resolveMove() that has no battle", function () {
 
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
+
 	var selectedCor,
 		objectFromSelectedCor,
 		actionCor,
 		objectFromActionCor;
 
-	beforeAll(function () {
+	beforeEach(function () {
 
-		initGameReady(); // Initialize Game Setup, characters placed, no moves made yet
+		// initGameReady(); // Initialize Game Setup, characters placed, no moves made yet
+		gamelogic.gameState.players.player1.reserve = {
+								"unit1": "Rock",
+								"unit2": false,
+								"unit3": "Paper",
+								"unit4": false,
+								"unit5": false,
+								"unit6": false
+							};
+
+		gamelogic.gameState.players.player2.reserve = {
+								"unit1": false,
+								"unit2": false,
+								"unit3": false,
+								"unit4": "Paper",
+								"unit5": "Scissors",
+								"unit6": false
+							};
+
+		gamelogic.gameState.gameStatus.mode = "turn";
+		gamelogic.gameState.gameStatus.AP = 2;
+		gamelogic.gameState.grid.hex2 = {"owner": "player1", "type": "rock", "health": 1};
+		gamelogic.gameState.grid.hex3 = {"owner": "player1", "type": "scissors", "health": 1};
+		gamelogic.gameState.grid.hex5 = {"owner": "player1", "type": "paper", "health": 1};
+		gamelogic.gameState.grid.hex10 = {"owner": "player1", "type": "scissors", "health": 1};
+		gamelogic.gameState.grid.hex28 = {"owner": "player2", "type": "rock", "health": 1};
+		gamelogic.gameState.grid.hex33 = {"owner": "player2", "type": "paper", "health": 1};
+		gamelogic.gameState.grid.hex35 = {"owner": "player2", "type": "rock", "health": 1};
+		gamelogic.gameState.grid.hex36 = {"owner": "player2", "type": "scissors", "health": 1};
 
 	});
 
 	afterAll(function () {
 
-		resetGameState();
+		// resetGameState();
 
 	});
 
 	it("should NOT move character data to new hex if move NOT valid", function () {
+
 
 		selectedCor = "hex2";
 		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
@@ -606,19 +797,14 @@ describe("resolveMove() that has no battle", function () {
 
 	it("should have action points decremented after move", function () {
 
+		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor); // make move
 		selectedCor = "hex7";
 		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
 		actionCor = "hex12";
 		objectFromActionCor = gamelogic.gameState.grid[actionCor];
 
-		expect(gamelogic.gameState.gameStatus.AP).toEqual(1); // since prev it block made move
+		expect(gamelogic.gameState.gameStatus.AP).toEqual(1);
 
-	});
-
-	it("should pass turn to next player if no AP are left", function () {
-		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor); // make second move
-
-		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
 	});
 
 });
@@ -626,20 +812,61 @@ describe("resolveMove() that has no battle", function () {
 
 describe("resolveMove() that has battle", function () {
 
+	var gamelogic;
+
+	// Before each test load our rpsApp module
+	beforeEach(angular.mock.module('rpsApp'));
+
+	// Before each test set our injected gamelogic ser vice(_gamelogic_) to our local gamelogic variable
+	beforeEach(inject(function(_gamelogic_) {
+		gamelogic = _gamelogic_;
+	}));
+
 	var selectedCor,
 		objectFromSelectedCor,
 		actionCor,
 		objectFromActionCor;
 
-	beforeAll(function () {
+	beforeEach(function () {
 
-		initBattleReady(); // Initialize Game Setup, characters placed, ready to battle
+		// initBattleReady(); // Initialize Game Setup, characters placed, ready to battle
+		gamelogic.gameState.players.player1.reserve = {
+								"unit1": "Rock",
+								"unit2": false,
+								"unit3": "Paper",
+								"unit4": false,
+								"unit5": false,
+								"unit6": false
+							};
+
+		gamelogic.gameState.players.player2.reserve = {
+								"unit1": false,
+								"unit2": false,
+								"unit3": false,
+								"unit4": "Paper",
+								"unit5": "Scissors",
+								"unit6": false
+							};
+
+		gamelogic.gameState.gameStatus.AP = 2;
+
+		gamelogic.gameState.grid.hex29 = {"owner": "player1", "type": "scissors", "health": 1};
+		gamelogic.gameState.grid.hex34 = {"owner": "player2", "type": "paper", "health": 1};
+
+		gamelogic.gameState.grid.hex19 = {"owner": "player1", "type": "paper", "health": 1};
+		gamelogic.gameState.grid.hex22 = {"owner": "player2", "type": "scissors", "health": 1};
+
+		gamelogic.gameState.grid.hex37 = {"owner": "player1", "type": "scissors", "health": 1};
+		gamelogic.gameState.grid.hex38 = {"owner": "player2", "type": "rock", "health": 1};
+
+		gamelogic.gameState.grid.hex21 = {"owner": "player1", "type": "rock", "health": 1};
+		gamelogic.gameState.grid.hex27 = {"owner": "player2", "type": "rock", "health": 1};
 
 	});
 
 	afterAll(function () {
 
-		resetGameState();
+		// resetGameState();
 
 	});
 
@@ -659,12 +886,24 @@ describe("resolveMove() that has battle", function () {
 	});
 
 	it("should have had action points decremented after move", function () {
+		selectedCor = "hex29";
+		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
+		actionCor = "hex34";
+		objectFromActionCor = gamelogic.gameState.grid[actionCor];
+
+		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
 
 		expect(gamelogic.gameState.gameStatus.AP).toEqual(1); // since prev it block made move
 
 	});
 
 	it("should destroy attacker if loses", function () {
+		selectedCor = "hex29";
+		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
+		actionCor = "hex34";
+		objectFromActionCor = gamelogic.gameState.grid[actionCor];
+
+		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
 
 		selectedCor = "hex34";
 		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
@@ -676,10 +915,6 @@ describe("resolveMove() that has battle", function () {
 		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "player2", "type": "rock", "health": 1});
 		expect(gamelogic.gameState.grid[selectedCor]).toEqual(gamelogic.emptyBoardObject);
 
-	});
-
-	it("should pass turn to next player if no AP are left", function () {
-		expect(gamelogic.gameState.gameStatus.currentPlayer).toEqual("player2");
 	});
 
 });
