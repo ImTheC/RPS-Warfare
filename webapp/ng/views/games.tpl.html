@@ -8,16 +8,16 @@
       <b>RPS Warfare</b>
     </p>
 
-    <md-button ng-click="games.openSidebar()">
+    <md-button ng-show="firebaseUser" ng-click="games.openSidebar()">
       <md-icon class="mdi mdi-plus-circle"></md-icon>
-      START NEW GAME
+      GAME DASHBOARD
     </md-button>
 
-    <div ng-show="loggedInUser">
-      <p>Hello {{ loggedInUser.displayName }}! <md-button ng-click="auth.$signOut()">Sign Out</md-button></p>
+    <div ng-show="firebaseUser">
+      <p>Hello {{ firebaseUser.displayName }}! <md-button ng-click="auth.$signOut()">Sign Out</md-button></p>
     </div>
 
-    <div ng-hide="loggedInUser">
+    <div ng-hide="firebaseUser">
       <md-button ng-click="games.openRightSidebar()">
         <md-icon class="mdi mdi-plus-circle"></md-icon>
         LOGIN TO PLAY

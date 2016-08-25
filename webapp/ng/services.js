@@ -15,33 +15,10 @@
     .service("addUserService", ["$firebaseArray",
       function($firebaseArray) {
 
-        // this.addToDb = function(node,child){
-        //   let ref = firebase.database().ref(node);
-        //   let childRef = ref.child(child);
-        //   return $firebaseArray(ref+'.'+childRef);
-        // }
-
         this.addToDb = function(node){
           let ref = firebase.database().ref().child(node);
           return $firebaseArray(ref);
         }
-
-      }
-    ])
-
-    .service("addUserMapService", ["$firebaseObject",
-      function($firebaseObject) {
-
-        this.addToDb = function(){
-          let ref = firebase.database().ref('usermap');//.ref.child(key)
-          return $firebaseObject(ref);
-        }
-
-        // this.addToDb = function(key){
-        //   let ref = firebase.database().ref().child('usermap').child(key);
-        //   let ref = firebase.database().ref('usermap').ref.child(key);//correct
-        //   return $firebaseArray(ref);
-        // }
 
       }
     ])
