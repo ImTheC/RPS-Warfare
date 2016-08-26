@@ -102,6 +102,26 @@
 			// 	console.log(ev.currentTarget);
 			// });
 
+			$scope.highlghtValidMoves = function( cor ){
+				let currentPlayer = gamelogic.gameState.gameStatus.currentPlayer;
+				let movesLeft = gamelogic.gameState.gameStatus.AP;
+
+					for ( let move in gamelogic.validMoves[cor] ) { // loop through valid moves
+						if ( gamelogic.gameState.grid[move].owner === "" || gamelogic.gameState.grid[move].owner === gamelogic.findNextPlayer(currentPlayer)) { // if hex is empty or opponent's unit add canMove
+
+							$('#' + move).parent().addClass("canMove");   // highlight valid moves
+							$('#' + move).addClass("canMove");   // highlight valid moves
+							$('#' + move).removeClass("notAllowed");   // remove no allow clicking cursor
+							//
+							// for ( let i = movesLeft-1; i > 0; i-- ) {
+							//  $scope.highlghtValidMoves(move);
+							// }
+
+							}
+					}
+
+			};
+
 			// $scope.validMoveClickEventOn = function() {
 				$('#grid').on('click', 'div', function() {  // highlight valid moves when player's character is clicked
 					$scope.renderGameState();
@@ -116,15 +136,25 @@
 							$scope.view.selectedCor = $(this).attr('id');
 						}
 
-						if ( gamelogic.gameState.grid[$scope.view.selectedCor] ) {
-							if ( currentPlayer === gamelogic.gameState.grid[$scope.view.selectedCor].owner ) {
-								for ( let move in gamelogic.validMoves[$scope.view.selectedCor] ) {
-									if ( !gamelogic.gameState.grid[move].owner || gamelogic.gameState.grid[move].owner === gamelogic.findNextPlayer(currentPlayer)) {
-										$('#' + move).parent().addClass("canMove");   // highlight valid moves
-										$('#' + move).addClass("canMove");   // highlight valid moves
-										$('#' + move).removeClass("notAllowed");   // remove no allow clicking cursor
-									}
-								}
+						if ( gamelogic.gameState.grid[$scope.view.selectedCor] ) { // if selectedCor is real
+							if ( currentPlayer === gamelogic.gameState.grid[$scope.view.selectedCor].owner ) { // if players owns unit
+
+								$scope.highlghtValidMoves($scope.view.selectedCor);
+
+								// for ( let move in gamelogic.validMoves[$scope.view.selectedCor] ) { // loop through valid moves
+								// 	if ( gamelogic.gameState.grid[move].owner === "" || gamelogic.gameState.grid[move].owner === gamelogic.findNextPlayer(currentPlayer)) { // if hex is empty or opponent's unit add canMove
+								//
+								// 		$('#' + move).parent().addClass("canMove");   // highlight valid moves
+								// 		$('#' + move).addClass("canMove");   // highlight valid moves
+								// 		$('#' + move).removeClass("notAllowed");   // remove no allow clicking cursor
+
+										// for ( let i = gamelogic.gameState.gameStatus.AP-1; i > 0; i-- ) {
+										//
+										//
+										// }
+								//
+								// 	}
+								// }
 							}
 						}
 
