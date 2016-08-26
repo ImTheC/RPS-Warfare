@@ -167,10 +167,10 @@ img.icon {
 
 .message p {
 	position: relative;
+	margin: 8px;
 	height: 95%;
 	width: 95%;
 	left: 2.5%;
-	top: -10px;
 }
 
 .flow-text {
@@ -312,10 +312,6 @@ img.icon {
 .notAllowed {
 	cursor:not-allowed !important;
 };
-
-.clickable {
-
-}
 
 .noTouchy {
 	pointer-events: none;

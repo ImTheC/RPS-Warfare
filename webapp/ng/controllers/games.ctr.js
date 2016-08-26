@@ -237,6 +237,10 @@
 
 						if ( ap === 0 ) {
 							gamelogic.endTurn();
+							$scope.checkForMsgs();
+							// $scope.view.message = "";
+							// $timeout.cancel(messageTimer);
+							// $scope.displayMessage( gamelogic.turnPlayerNumberIntoName(gamelogic.gameState.gameStatus.currentPlayer) + ", it's your turn!");
 							$scope.renderGameState();
 						}
 
@@ -354,7 +358,6 @@
 
 		// #### CIRCLE RESERVE MENU ####
 		$scope.compileReserveMenu = function() {
-			console.log("compile");
 			let currentPlayer = gamelogic.gameState.gameStatus.currentPlayer;
 			let reserve = gamelogic.gameState.players[currentPlayer].reserve;
 			let currentUnit = gamelogic.gameState.grid[$scope.view.selectedCor].type;
