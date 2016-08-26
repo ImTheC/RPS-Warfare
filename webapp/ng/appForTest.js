@@ -3,7 +3,7 @@
 
   angular
 
-    .module('rpsApp', ['ngMaterial','ngAnimate','ui.router', 'firebase'])
+    .module('rpsApp', ['ngMaterial','ngAnimate','ui.router'])
 
     .config(function($mdThemingProvider,$stateProvider){
 

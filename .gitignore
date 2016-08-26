@@ -1,3 +1,4 @@
+.DS_Store
 .firebaserc
 database.rules.json
 firebase.json
@@ -5,4 +6,5 @@ gamedata.json
 model.json
 images
 node_modules
+notUsed
 scraps.js
