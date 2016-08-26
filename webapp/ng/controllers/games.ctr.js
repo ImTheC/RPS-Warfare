@@ -28,32 +28,32 @@
 
       function openSidebar(){
         st.go('games.new');
-      };
+      }
 
       function openRightSidebar(){
         st.go('games.login');
-      };
+      }
 
       function closeRightSidebar(){
         $mdSidenav('right').close();
         $timeout(function(){
           st.go('games');
         },250);
-      };
+      }
 
       function closeRightSidebarAndOpenLeft(){
         t.rightSidenavOpen = false;
         $timeout(function(){
           st.go('games/new');
         },250);
-      };
+      }
 
       function closeSidebar(){
         $mdSidenav('left').close();
         $timeout(function(){
           st.go('games');
         },250);
-      };
+      }
 
       function showToast(message){
 
@@ -64,7 +64,7 @@
             .hideDelay(3000)
         );
 
-      };
+      }
 
       //CHECK AUTH STATUS AND MAKE USER AVAILABLE ON ROOT
       s.auth.$onAuthStateChanged(function(firebaseUser){

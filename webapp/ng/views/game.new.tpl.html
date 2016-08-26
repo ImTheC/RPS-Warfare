@@ -22,37 +22,21 @@
           <img style="border-radius:8px;width:100px" ng-src={{firebaseUser.photoURL}} alt={{firebaseUser.displayName}} /><br>
           {{firebaseUser.displayName}}
         </p>
-        <p>
-          Find a Friend<br>
-          <input type="text" ng-model="match">
 
-          <div ng-repeat="user in users | filter:match">
-
-            <div ng-show="(users|filter:1).length > 0">
-              {{ user | json }}
-            </div>
-          </div>
-
-          <!-- <div ng-repeat="user in users">
-            <div ng-repeat="(key, value) in user">
-                {{key}} : {{value}}
-            </div>
-          </div> -->
-           <!-- | filter:{displayName:friendSearch}:true track by $index -->
-          <!-- | filter:friendSearch -->
-          <!-- <div ng-repeat="user in users">
-            <img style="border-radius:8px;width:100px" ng-src={{user.photoURL}} alt={{user.displayName}} /><br>
-            {{user.displayName}}
-          </div> -->
-        </p>
-        <!-- <p>
-          Player 2
-          <div ng-repeat="user in otherUsers">
-            <img style="border-radius:8px;width:100px" ng-src={{user.photoURL}} alt={{user.displayName}} />
-          </div>
-        </p> -->
         <md-input-container>
+          <p>
+            Find a Friend by Email<br>
+            <input type="text" ng-model="match" aria-label="Search for Friends">
 
+                <div ng-show="match.length" ng-repeat="user in users | filter:{email:match} | filter:match:true | limitTo:1">
+                  <img ng-src={{user.photoURL}} style="border-radius:25px;width:50px" alt={{user.displayName}} /><br>
+                  {{user.displayName}}
+                  <md-button aria-label="add a friend" ng-click="newgame.addFriend(user.$id)">
+                    Add Friend
+                  </md-button>
+                </div>
+
+          </p>
         </md-input-container>
 
         <md-input-container>

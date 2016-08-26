@@ -18,6 +18,7 @@
       t.closeSidebar = closeSidebar;
       t.createNewGame = createNewGame;
       t.initGame = initGame;
+      t.addFriend = addFriend;
 
       //initialize vars
       t.sidenavOpen = true;
@@ -46,13 +47,17 @@
         let ref = firebase.database().ref('users');
 
         s.users = $firebaseArray(ref);
+        console.log(s.users);
 
         // ref.once('value',function(snap){
         //   s.users = snap.val();
-          console.log(s.users);
         // });
 
       })();
+
+      function addFriend(friendId){
+        console.log(friendId);
+      }
 
       function initGame(){
         console.log('click got me to initGame function');
