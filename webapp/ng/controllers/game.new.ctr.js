@@ -6,12 +6,12 @@
   angular
     .module('rpsApp')
     .controller('newGameCtr',
-            ['$rootScope','$scope','$state','$mdSidenav','$timeout','$mdDialog','$mdToast','getGameService',
-      function($rootScope, $scope, $state, $mdSidenav, $timeout, $mdDialog, $mdToast, getGameService){
+            ['$rootScope','$scope','$state','$http','$mdSidenav','$timeout','$mdToast','$mdDialog','$firebaseObject','$firebaseArray','getGameService',
+      function($rootScope, $scope, $state, $http, $mdSidenav, $timeout, $mdToast, $mdDialog, $firebaseObject, $firebaseArray, getGameService){
 
       let t = this;
-      let s = $scope;
       let rs = $rootScope;
+      let s = $scope;
       let st = $state;
 
       //initialize functions
@@ -20,34 +20,39 @@
       t.initGame = initGame;
 
       //initialize vars
-      t.sidenavOpen;
+      t.sidenavOpen = true;
       rs.games;
 
-
+      //START NAV CONTROLS
       $timeout(function(){
         $mdSidenav('left').open();
         t.sidenavOpen = true;
       });
 
-      s.$watch('t.sidenavOpen',function(sidenav){
-        if(sidenav === false){
-          $mdSidenav('left')
-            .close()
-            .then(function(){
-              st.go('games');
-            });
-        }
-      });
-
       function closeSidebar(){
-        $mdSidenav('left').close();
-        st.go('games');
         t.sidenavOpen = false;
-      };
+        $timeout(function(){
+          st.go('games');
+        },250);
+      };//END NAV CONTROLS
 
       function createNewGame(games){
         closeSidebar();
       };
+
+      (function(){
+
+        s.users = [];
+        let ref = firebase.database().ref('users');
+
+        s.users = $firebaseArray(ref);
+
+        // ref.once('value',function(snap){
+        //   s.users = snap.val();
+          console.log(s.users);
+        // });
+
+      })();
 
       function initGame(){
         console.log('click got me to initGame function');

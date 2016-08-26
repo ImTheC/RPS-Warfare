@@ -15,14 +15,13 @@
       let st = $state;
 
       //initialize functions
-      s.signInWithEmail = signInWithEmail;
       t.closeRightSidebar = closeRightSidebar;
       s.resetLoginInputs = resetLoginInputs;
       s.signInWithEmail = signInWithEmail;
       s.facebookSignin = facebookSignin;
 
       //initialize vars
-      s.users = {};
+      // s.users = {};
       s.email;
       s.password;
       t.rightSidenavOpen;
@@ -32,18 +31,6 @@
         $mdSidenav('right').open();
         t.rightSidenavOpen = true;
       });
-
-      // s.$watch('t.rightSidenavOpen',function(sidenav){
-      //   console.log('watcher triggered');
-      //   if(sidenav === false){
-      //     console.log('switched to false');
-      //     $mdSidenav('right')
-      //       .close()
-      //       .then(function(){
-      //         st.go('games');
-      //       });
-      //   }
-      // });
 
       function closeRightSidebar(){
         t.rightSidenavOpen = false;

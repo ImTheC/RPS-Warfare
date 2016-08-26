@@ -6,35 +6,63 @@
  <!-- md-disable-backdrop="true" -->
 
 
-  <md-toolbar>
-    <h1 class="md-toolbar-tools">Game Dash</h1>
+  <md-toolbar style="display:inline-block">
+    <h1 class="md-toolbar-tools">GAME DASHBOARD
+      <md-button ng-click="newgame.closeSidebar()" style="width:30px;height:30px;padding:0;margin-left:10px;"
+      aria-label="closeRightSidebar">
+        <md-icon class="mdi mdi-close"></md-icon>
+      </md-button>
+    </h1>
   </md-toolbar>
 
 
   <md-content layout-padding>
       <form>
-        <p>
-          Player 1<br>
-          <img style="border-radius:8px;width:100px" ng-src={{loggedInUser.photoURL}} alt={{loggedInUser.displayName}} />
+        <p style="text-align:center;">
+          <img style="border-radius:8px;width:100px" ng-src={{firebaseUser.photoURL}} alt={{firebaseUser.displayName}} /><br>
+          {{firebaseUser.displayName}}
         </p>
         <p>
+          Find a Friend<br>
+          <input type="text" ng-model="match">
+
+          <div ng-repeat="user in users | filter:match">
+
+            <div ng-show="(users|filter:1).length > 0">
+              {{ user | json }}
+            </div>
+          </div>
+
+          <!-- <div ng-repeat="user in users">
+            <div ng-repeat="(key, value) in user">
+                {{key}} : {{value}}
+            </div>
+          </div> -->
+           <!-- | filter:{displayName:friendSearch}:true track by $index -->
+          <!-- | filter:friendSearch -->
+          <!-- <div ng-repeat="user in users">
+            <img style="border-radius:8px;width:100px" ng-src={{user.photoURL}} alt={{user.displayName}} /><br>
+            {{user.displayName}}
+          </div> -->
+        </p>
+        <!-- <p>
           Player 2
           <div ng-repeat="user in otherUsers">
             <img style="border-radius:8px;width:100px" ng-src={{user.photoURL}} alt={{user.displayName}} />
           </div>
-        </p>
+        </p> -->
         <md-input-container>
 
         </md-input-container>
 
         <md-input-container>
           <!-- <md-button ng-click="newgame.createNewGame(games)" class="md-primary">
-            Stare RPS Warfare
+            Start RPS Warfare
           </md-button> -->
-          <md-button ng-click="newgame.initGame()">Start RPS Warfare</md-button>
+          <md-button ng-click="newgame.initGame(player2email)">Start RPS Warfare</md-button>
         </md-input-container>
         <!-- <pre>
-          {{loggedInUser | json}}
+          {{firebaseUser | json}}
           {{allUsers | json}}
         </pre> -->
       </form>
