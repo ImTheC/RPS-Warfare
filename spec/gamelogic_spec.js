@@ -37,122 +37,122 @@ function resetGameState(){
 							"second": {"player": null, "cor": null}
 						}
 					},
-					"AP": null,
+					"AP": "",
 				},
 				"grid": {
 					"hex1": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex2": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex3": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex4": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex5": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex6": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex7": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex8": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex9": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex10": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex11": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex12": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex13": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex14": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex15": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex16": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex17": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex18": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex19": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex20": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex21": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex22": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex23": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex24": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex25": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex26": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex27": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex28": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex29": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex30": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex31": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex32": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex33": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex34": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex35": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex36": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 					"hex37": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 },
 				 "hex38": {
-								 "owner": null, "type": null, "health": null
+								 "owner": "", "type": "", "health": ""
 							 }
 					} // end of grid:
 	};
@@ -364,7 +364,7 @@ describe("findNextPlayer()", function () {
 	});
 
 	it("should loop back to player1 when reached end of players", function () {
-		gamelogic.gameState.gameStatus.currentPlayer = "player2";
+		gamelogic.gameState.gameStatus.currentPlayer = "Castro";
 		expect(gamelogic.findNextPlayer()).toEqual("player1");
 	});
 
@@ -532,7 +532,7 @@ describe("move()", function () {
 		gamelogic.move(objectFromSelectedCor, selectedCor, actionCor);
 
 		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "player1", "type": "rock", "health": 1});
-		expect(gamelogic.gameState.grid[selectedCor]).toEqual({"owner": null, "type": null, "health": null});
+		expect(gamelogic.gameState.grid[selectedCor]).toEqual({"owner": "", "type": "", "health": ""});
 
 	});
 
@@ -713,6 +713,11 @@ describe("resolveMove() that has no battle", function () {
 
 	var gamelogic;
 
+	var selectedCor,
+	objectFromSelectedCor,
+	actionCor,
+	objectFromActionCor;
+
 	// Before each test load our rpsApp module
 	beforeEach(angular.mock.module('rpsApp'));
 
@@ -720,11 +725,6 @@ describe("resolveMove() that has no battle", function () {
 	beforeEach(inject(function(_gamelogic_) {
 		gamelogic = _gamelogic_;
 	}));
-
-	var selectedCor,
-		objectFromSelectedCor,
-		actionCor,
-		objectFromActionCor;
 
 	beforeEach(function () {
 
@@ -749,14 +749,14 @@ describe("resolveMove() that has no battle", function () {
 
 		gamelogic.gameState.gameStatus.mode = "turn";
 		gamelogic.gameState.gameStatus.AP = 2;
-		gamelogic.gameState.grid.hex2 = {"owner": "player1", "type": "rock", "health": 1};
-		gamelogic.gameState.grid.hex3 = {"owner": "player1", "type": "scissors", "health": 1};
-		gamelogic.gameState.grid.hex5 = {"owner": "player1", "type": "paper", "health": 1};
-		gamelogic.gameState.grid.hex10 = {"owner": "player1", "type": "scissors", "health": 1};
-		gamelogic.gameState.grid.hex28 = {"owner": "player2", "type": "rock", "health": 1};
-		gamelogic.gameState.grid.hex33 = {"owner": "player2", "type": "paper", "health": 1};
+		gamelogic.gameState.grid.hex1 = {"owner": "player1", "type": "rock", "health": 1};
+		gamelogic.gameState.grid.hex2 = {"owner": "player1", "type": "scissors", "health": 1};
+		gamelogic.gameState.grid.hex3 = {"owner": "player1", "type": "paper", "health": 1};
+		gamelogic.gameState.grid.hex4 = {"owner": "player1", "type": "scissors", "health": 1};
 		gamelogic.gameState.grid.hex35 = {"owner": "player2", "type": "rock", "health": 1};
-		gamelogic.gameState.grid.hex36 = {"owner": "player2", "type": "scissors", "health": 1};
+		gamelogic.gameState.grid.hex36 = {"owner": "player2", "type": "paper", "health": 1};
+		gamelogic.gameState.grid.hex37 = {"owner": "player2", "type": "rock", "health": 1};
+		gamelogic.gameState.grid.hex38 = {"owner": "player2", "type": "scissors", "health": 1};
 
 	});
 
@@ -776,8 +776,8 @@ describe("resolveMove() that has no battle", function () {
 
 		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
 
-		expect(gamelogic.gameState.grid[selectedCor]).toEqual({"owner": "player1", "type": "rock", "health": 1});
-		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": null, "type": null, "health": null});
+		expect(gamelogic.gameState.grid[selectedCor]).toEqual({"owner": "player1", "type": "scissors", "health": 1});
+		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "", "type": "", "health": ""});
 	});
 
 
@@ -790,18 +790,19 @@ describe("resolveMove() that has no battle", function () {
 
 		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor);
 
-		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "player1", "type": "rock", "health": 1});
-		expect(gamelogic.gameState.grid[selectedCor]).toEqual({"owner": null, "type": null, "health": null});
+		expect(gamelogic.gameState.grid[actionCor]).toEqual({"owner": "player1", "type": "scissors", "health": 1});
+		expect(gamelogic.gameState.grid[selectedCor]).toEqual({"owner": "", "type": "", "health": ""});
 
 	});
 
 	it("should have action points decremented after move", function () {
 
-		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor); // make move
-		selectedCor = "hex7";
+		selectedCor = "hex2";
 		objectFromSelectedCor = gamelogic.gameState.grid[selectedCor];
-		actionCor = "hex12";
+		actionCor = "hex7";
 		objectFromActionCor = gamelogic.gameState.grid[actionCor];
+
+		gamelogic.resolveMove(selectedCor, objectFromSelectedCor, actionCor, objectFromActionCor); // make move
 
 		expect(gamelogic.gameState.gameStatus.AP).toEqual(1);
 

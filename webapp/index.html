@@ -17,7 +17,7 @@
 		<div class="modalbackground hide"></div>
 
 		<div id="message" class="message">
-			<!-- <h5>{{view.currentPlayer}} has {{view.ap}} moves! Mode = {{view.mode}} -- Selected: {{view.selectedCor}} -- Action: {{view.actionCor}}</h5> -->
+			<!-- <h5>{{view.mode}}</h5> -->
 			<p class="flow-text">{{ view.message }}</p>
 		</div>
 
@@ -146,25 +146,8 @@
 
 		<ui-view></ui-view>
 
-	  <script src="../node_modules/jquery/dist/jquery.js"></script>
-	  <script src="../node_modules/angular/angular.js"></script>
-	  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.js"></script>
-	  <script src="../node_modules/angular-ui-router/release/angular-ui-router.js"></script>
-	  <script src="../node_modules/angular-animate/angular-animate.js"></script>
-	  <script src="../node_modules/angular-aria/angular-aria.js"></script>
-	  <script src="../node_modules/angular-material/angular-material.js"></script>
-	  <script src="ng/app.js"></script>
-	  <script src="ng/services.js"></script>
-	  <!-- <script src="ng/controllers/users.ctr.js"></script> -->
-	  <!-- <script src="ng/controllers/user.new.ctr.js"></script> -->
-	  <!-- <script src="ng/controllers/user.edit.ctr.js"></script> -->
-	  <script src="ng/controllers/games.ctr.js"></script>
-	  <!-- <script src="ng/controllers/game.new.ctr.js"></script> -->
-	  <!-- <script src="ng/controllers/game.ctr.js"></script> -->
-
 	  <!-- Firebase -->
 	  <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
-	  <!-- <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script> -->
 	  <script>
 	    // Initialize Firebase
 	    var config = {
@@ -176,10 +159,23 @@
 	    firebase.initializeApp(config);
 	  </script>
 
+		<script src="../node_modules/angular/angular.js"></script>
+
 	  <!-- AngularFire -->
 	  <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
 	  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angularFire/1.1.3/angularfire.min.js"></script> -->
 
+
+		<script src="../node_modules/jquery/dist/jquery.js"></script>
+
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.js"></script>
+	  <script src="../node_modules/angular-ui-router/release/angular-ui-router.js"></script>
+	  <script src="../node_modules/angular-animate/angular-animate.js"></script>
+	  <script src="../node_modules/angular-aria/angular-aria.js"></script>
+	  <script src="../node_modules/angular-material/angular-material.js"></script>
+	  <script src="ng/app.js"></script>
+	  <script src="ng/services.js"></script>
+	  <script src="ng/controllers/games.ctr.js"></script>
 	</body>
 
 	<!-- <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>

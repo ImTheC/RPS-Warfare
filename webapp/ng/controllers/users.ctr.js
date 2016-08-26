@@ -6,146 +6,191 @@
   angular
     .module('rpsApp')
     .controller('usersCtr',
-            ['$scope','$state','$http','$mdToast','$mdDialog','$firebaseObject','authService','addUserService',
-      function($scope, $state, $http, $mdToast, $mdDialog, $firebaseObject, authService, addUserService){
+            ['$scope','$state','$http','$mdToast','$mdDialog','$firebaseObject','$firebaseArray','$timeout','authService','addUserService','addUserMapService',
+      function($scope, $state, $http, $mdToast, $mdDialog, $firebaseObject, $firebaseArray, $timeout, authService, addUserService, addUserMapService){
 
       let t = this;
       let s = $scope;
       let st = $state;
 
       //initialize functions
-
+      s.signInWithEmail = signInWithEmail;
+      s.facebookSignin = facebookSignin;
+      s.resetLoginInputs = resetLoginInputs;
 
       //vars
       s.users = {};
-      // $firebaseObject(firebase.database().ref().child("users")).$bindTo(s,"users");
+      s.email;
+      s.password;
+      s.auth = authService;
 
-
-      // let ref = firebase.database().ref().child("data");
-      //
-      // let syncObject = $firebaseObject(ref);
-      //
-      // syncObject.$bindTo(s, "data");
-
-      let ref = firebase.database().ref().child("validmoves");
-
-      let syncMoves = $firebaseObject(ref);
-
-      syncMoves.$bindTo(s, "validmoves");
-
-
-
-
-
-      //DELETE USER
-      // s.deleteUser = function() {
-      //   s.message = null;
-      //   s.error = null;
-      //   authService.$deleteUser().then(function() {
-      //     s.message = "Sorry to see you go. Your account has been removed.";
-      //     })
-      //     .catch(function(error) {
-      //       s.error = error;
-      //     });
-      // };
+      function resetLoginInputs(){
+        s.email = '';
+        s.password = '';
+      }
 
       //EMAIL SIGNUPS
       s.createUser = function() {
         s.message = null;
         s.error = null;
         authService.$createUserWithEmailAndPassword(s.email,s.password)
-          .then(function(firebaseUser) {
 
-            s.firebaseUser = firebaseUser;
-
-            Object.defineProperties(s.firebaseUser.providerData[0],{
-              displayName: { writable:true },
-              email: { writable:true },
-              photoURL: { writable:true }
-            });
-
-            s.firebaseUser.providerData[0].displayName;
-            $scope.$watch('firebaseUser.providerData[0].displayName', function(){
-                if (s.firebaseUser){
-                  s.firebaseUser.providerData[0].displayName = s.firebaseUser.providerData[0].email.replace(/@.*/, '');
-                }
-              }
-            );
-            s.firebaseUser.providerData[0].displayName = s.firebaseUser.providerData[0].email.replace(/@.*/, '');
-
-            s.firebaseUser.providerData[0].photoURL = 'assets/images/no-photo.gif';
-
-            s.firebaseUser.providerData[0].score = 0;
-
-            if (s.firebaseUser !== null && s.firebaseUser.providerData[0].providerId === 'password'){
-
-              var ref = firebase.database().ref().child("users");
-              var users = $firebaseObject(ref);
-              var uid = s.firebaseUser.uid;
-
-              users[uid] = s.firebaseUser.providerData[0];
-
-              users.$save()
-              .then(function(ref) {
-                console.log('Email Signup Saved');
-              }, function(error) {
-                console.log("Oops, the following went wrong: ", error);
-              });
-
-            } else {
-              console.log('is logged out');
-            }
-
-
+        .then(function(firebaseUser) {
+          let userURL = `https://rps-warfare.firebaseio.com/usermap/${firebaseUser.uid}.json`;
+          $http({
+            method: 'GET',
+            url: userURL
           })
-          .catch(function(error) {
-            s.error = error;
+          .then(function(data){
+            if (data.data === null){
+                  console.log('Safe to add new user.');
+                  let newUserObj = firebaseUser.providerData[0];
+
+                  Object.defineProperties(newUserObj,{
+                    displayName: { writable:true },
+                    email: { writable:true },
+                    photoURL: { writable:true }
+                  });
+                  newUserObj.displayName = newUserObj.email.replace(/@.*/, '');
+                  newUserObj.photoURL = 'assets/images/no-photo.gif';
+
+                  newUserObj.dateCreated = firebase.database.ServerValue.TIMESTAMP;
+                  newUserObj.score = 0;
+                  newUserObj.inGames = [''];
+                  newUserObj.aid = firebaseUser.uid;
+                  newUserObj.emailVerified = firebaseUser.emailVerified;
+                  s.aid = newUserObj.aid;
+                  // newUserObj.token = firebaseUser.refreshToken;
+
+                  addUserService.addToDb('users').$add(newUserObj)
+                  .then(function(ref) {
+                    s.newUserObjKey = ref.key;
+                    let value = ref.key;
+                    let key = newUserObj.aid;
+                    let newUserMapObj = {};
+                    newUserMapObj[key] = value;
+                    firebase.database().ref('usermap/').update(newUserMapObj);
+                  }, function(error) {
+                    console.log("Oops, new user was not added. Error: ",error);
+                  });
+            } else {
+              console.log('Account already exists.');
+              return;
+            }
           });
+        })
+        .catch(function(error) {
+          console.error("Failed to login. Error: ",error);
+        });
+
       };
 
-      //SOCIAL SIGNUPS
-      s.auth = authService;
-      authService.$onAuthStateChanged(function(firebaseUser){
-        s.firebaseUser = firebaseUser;
-        if (s.firebaseUser){
+      //SOCIAL SIGNUP
+      function facebookSignin(){
+        authService.$signInWithPopup("facebook")
+        .then(function(result) {
+          let userURL = `https://rps-warfare.firebaseio.com/usermap/${result.user.uid}.json`;
+          $http({
+            method: 'GET',
+            url: userURL
+          })
+          .then(function(data){
+            if (data.data === null){
+                  console.log('Safe to add new user.');
+                  let newUserObj = result.user.providerData[0];
+                  newUserObj.dateCreated = firebase.database.ServerValue.TIMESTAMP;
+                  newUserObj.score = 0;
+                  newUserObj.inGames = [''];
+                  newUserObj.aid = result.user.uid;
+                  newUserObj.emailVerified = result.user.emailVerified;
+                  s.aid = newUserObj.aid;
+                  // newUserObj.token = result.credential.accessToken;
 
-          if (s.firebaseUser.providerData[0].providerId !== "password"){
+                  addUserService.addToDb('users').$add(newUserObj)
+                  .then(function(ref) {
+                    s.newUserObjKey = ref.key;
+                    let value = ref.key;
+                    let key = newUserObj.aid;
+                    let newUserMapObj = {};
+                    newUserMapObj[key] = value;
+                    firebase.database().ref('usermap/').update(newUserMapObj);
+                  }, function(error) {
+                    console.log("Oops, new user was not added. Error: ",error);
+                  });
+            } else {
+              console.log('Account already exists.');
+              return;
+            }
+          });
+        })
+        .catch(function(error) {
+          console.error("Failed to login. Error: ",error);
+        });
+      }
 
-            // function addUser(child){
-            //
-            // }
 
-            var ref = firebase.database().ref().child("users");
-            var users = $firebaseObject(ref);
-            var uid = s.firebaseUser.uid;
 
-            s.firebaseUser.providerData[0].score = 0;
+      //Logged In
+      s.auth.$onAuthStateChanged(function(firebaseUser){
 
-            users[uid] = s.firebaseUser.providerData[0];
+        resetLoginInputs();
 
-            users.$save()
-            .then(function(ref) {
-              console.log('Social Signup Saved');
-            }, function(error) {
-              console.log("Oops, the following went wrong: ", error);
+        if (firebaseUser){
+
+
+          let ref = firebase.database();
+          let usersRef = ref.ref('users');
+          usersRef.orderByChild('aid').equalTo(firebaseUser.uid).on('child_added', function(snap){
+            $timeout(function(){
+              s.firebaseUser = snap.val();
+              console.log(s.firebaseUser);
             });
+          });
 
-          }
         } else {
-          console.log('is logged out');
+          s.firebaseUser = null;
         }
 
-
-
       });
 
+      // function signInWithEmail(email,password){
+      //   authService.$signInWithEmailAndPassword(email,password)
+      //   .then(function(firebaseUser) {
+      //     let userURL = `https://rps-warfare.firebaseio.com/usermap/${firebaseUser.uid}.json`;
+      //     $http({
+      //       method: 'GET',
+      //       url: userURL
+      //     })
+      //       .then(function(data){
+      //         let ref = data.data;
+      //         let clonedUsersURL = `https://rps-warfare.firebaseio.com/users/${ref}.json`;
+      //           $http({
+      //             method: 'GET',
+      //             url: clonedUsersURL
+      //           })
+      //             .then(function(data){
+      //               s.firebaseUser = data.data;
+      //               console.log(s.firebaseUser);
+      //             },function(error){ console.log(error); })
+      //       },function(error){ console.log('error message: ', error)});
+      //
+      //   })
+      //   .catch(function(error) {
+      //       console.error("Oops, looks like we couldn't log you in for the following reason: ", error);
+      //     });
+      // }
 
-      $scope.authObj.$signInWithEmailAndPassword("my@email.com", "password").then(function(firebaseUser) {
-        console.log("Signed in as:", firebaseUser.uid);
-      }).catch(function(error) {
-        console.error("Authentication failed:", error);
-      });
+      function signInWithEmail(email,password){
+        authService.$signInWithEmailAndPassword(email,password)
+        .then(function(firebaseUser) {
 
+          //do something
+
+        })
+        .catch(function(error) {
+            console.error("Oops, looks like we couldn't log you in for the following reason: ", error);
+          });
+      }
 
       function showToast(message){
 

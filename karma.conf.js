@@ -22,7 +22,7 @@ module.exports = function(config) {
 			'./node_modules/angular-animate/angular-animate.js',             // animate
 			// './node_modules/angularfire/index.js',                                // firebase
 	    './node_modules/angular-mocks/angular-mocks.js',                 // loads our modules for tests
-			'./webapp/ng/app.js',                                            // our angular app
+			'./webapp/ng/appForTest.js',                                            // our angular app
 	    './webapp/ng/services.js',                                       // our services
 			'./spec/gamelogic_spec.js'
     ],

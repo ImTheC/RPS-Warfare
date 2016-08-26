@@ -1,3 +1,45 @@
 
 
-<h1>new game</h1>
+
+
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-open="newgame.sidenavOpen">
+ <!-- md-disable-backdrop="true" -->
+
+
+  <md-toolbar>
+    <h1 class="md-toolbar-tools">Game Setup</h1>
+  </md-toolbar>
+
+
+  <md-content layout-padding>
+      <form>
+        <p>
+          Player 1<br>
+          <img style="border-radius:8px;width:100px" ng-src={{loggedInUser.photoURL}} alt={{loggedInUser.displayName}} />
+        </p>
+        <p>
+          Player 2
+          <div ng-repeat="user in otherUsers">
+            <img style="border-radius:8px;width:100px" ng-src={{user.photoURL}} alt={{user.displayName}} />
+          </div>
+        </p>
+        <md-input-container>
+
+        </md-input-container>
+
+        <md-input-container>
+          <!-- <md-button ng-click="newgame.createNewGame(games)" class="md-primary">
+            Stare RPS Warfare
+          </md-button> -->
+          <md-button ng-click="newgame.initGame()">Start RPS Warfare</md-button>
+        </md-input-container>
+        <!-- <pre>
+          {{loggedInUser | json}}
+          {{allUsers | json}}
+        </pre> -->
+      </form>
+
+    </md-content>
+
+
+  </md-sidenav>

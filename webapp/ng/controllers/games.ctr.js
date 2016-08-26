@@ -5,18 +5,78 @@
 
   angular
     .module('rpsApp')
-    .controller('gamesCtr',
-            ['$scope','$state','$mdToast','gamelogic', '$timeout',
-      function($scope, $state, $mdToast, gamelogic, $timeout){
+    .controller('gamesCtr',['$rootScope','$scope','$state','$http','$mdToast','$mdDialog','$firebaseObject','$firebaseArray','authService','addUserService','getUserService','gamelogic', '$timeout',
+      function($rootScope, $scope, $state, $http, $mdToast, $mdDialog, $firebaseObject, $firebaseArray, authService, addUserService, getUserService, gamelogic, $timeout){
 
-      let t = this;
-      let s = $scope;
+			let t = this;
+			let s = $scope;
+			let rs = $rootScope;
+			let st = $state;
 
-      //initialize functions
+			//initialized functions
+			t.openSidebar = openSidebar;
+			t.openRightSidebar = openRightSidebar;
+			t.closeRightSidebar = closeRightSidebar;
+			t.closeSidebar = closeSidebar;
+
+			//initialized lets
+			s.auth = authService;
 
 
-      //vars
 
+						function openSidebar(){
+							st.go('games.new');
+						}
+
+						function openRightSidebar(){
+							st.go('games.login');
+						}
+
+						function closeRightSidebar(){
+							$mdSidenav('right').close();
+							$timeout(function(){
+								st.go('games');
+							},250);
+						}
+
+						function closeSidebar(){
+							$mdSidenav('left').close();
+						}
+
+						function showToast(message){
+
+							$mdToast.show(
+								$mdToast.simple()
+									.content(message)
+									.position('top, right')
+									.hideDelay(3000)
+							);
+
+						}
+
+			//CHECK AUTH STATUS AND MAKE USER AVAILABLE ON ROOT
+			s.auth.$onAuthStateChanged(function(firebaseUser){
+
+				if (firebaseUser){
+
+					let ref = firebase.database();
+					let usersRef = ref.ref('users');
+					usersRef.orderByChild('aid').equalTo(firebaseUser.uid).on('child_added', function(snap){
+						$timeout(function(){
+							rs.firebaseUser = snap.val();
+							console.log(rs.firebaseUser);
+							closeRightSidebar();
+						});
+					});
+
+				} else {
+					rs.firebaseUser = null;
+				}
+
+			});
+
+
+      //initialized lets
 			$scope.view = {};
 
 			$scope.view.selectedCor = "";
@@ -32,32 +92,20 @@
 			};
 
 			$scope.view.imageList = {
-				rock: "webapp/images/rock.png",
-				paper: "webapp/images/paper.png",
-				scissors: "webapp/images/scissors.png"
+				rock: "images/rock.png",
+				paper: "images/paper.png",
+				scissors: "images/scissors.png"
 			};
 
-      function showToast(message){
-
-        $mdToast.show(
-          $mdToast.simple()
-            .content(message)
-            .position('top, right')
-            .hideDelay(3000)
-        );
-
-      }
-
-			// $scope.clearHighlighted = function() {
-			// 	$('.canMove').removeClass("canMove").addClass("notAllowed");
-			// };
+			// $('*').on("click", function(ev){
+			// 	console.log(ev.currentTarget);
+			// });
 
 			// $scope.validMoveClickEventOn = function() {
 				$('#grid').on('click', 'div', function() {  // highlight valid moves when player's character is clicked
+					$scope.renderGameState();
 					let mode = gamelogic.gameState.gameStatus.mode;
 					let currentPlayer = gamelogic.gameState.gameStatus.currentPlayer;
-
-					// clearHighlighted();
 
 					if ( mode === "turn") {
 
@@ -88,91 +136,113 @@
 
 
 			$scope.checkGameState = function() {
-				var currentPlayer = gamelogic.gameState.gameStatus.currentPlayer;
-				var mode = gamelogic.gameState.gameStatus.mode;
-				var ap = gamelogic.gameState.gameStatus.AP;
-				let msg = gamelogic.getMessage();
+				let currentPlayer = gamelogic.gameState.gameStatus.currentPlayer;
 
-				if ( msg ) {
+				let mode = gamelogic.gameState.gameStatus.mode;
+				let ap = gamelogic.gameState.gameStatus.AP;
+				let msg = gamelogic.getMessage();
+				let checkForGameEnd = gamelogic.checkForGameEnd();
+
+				if ( mode === "turn" && checkForGameEnd ) {  // if a winner then do this
+
+					// if a winner then do this
 					$scope.view.message = "";
 					$timeout.cancel(messageTimer);
-					$("#message").fadeIn( "slow", $scope.displayMessage( msg ));
-				}
+					$("#message").fadeIn( "slow", $scope.displayMessage( "GAME OVER!! " + gamelogic.turnPlayerNumberIntoName(checkForGameEnd) + " is the winner!!!" ));
 
-		// SETUP MODE
-				if ( mode === "setup" ) {
-					$scope.reserveMenuClickEventOn();
-					if ( ap > 0 ) { // if still has action points left
-						if ( currentPlayer === "player1" ) {  // see who's placing characters
-							for ( let i = 1; i <=4; i++ ) {
-								if ( !gamelogic.gameState.grid["hex" + i].owner ) { // if hex empty
-									$("#hex" + i).addClass("canMove");
-									$("#hex" + i).parent().removeClass("notAllowed");
-									$("#hex" + i).removeClass("notAllowed");
+				} else { 	// if no winner yet
+
+					if ( msg ) {
+						$scope.view.message = "";
+						$timeout.cancel(messageTimer);
+						$("#message").fadeIn( "slow", $scope.displayMessage( msg ));
+					}
+
+					// SETUP MODE
+					if ( mode === "setup" ) {
+						$scope.reserveMenuClickEventOn();
+						if ( ap > 0 ) { // if still has action points left
+							if ( currentPlayer === "player1" ) {  // see who's placing characters
+								for ( let i = 1; i <=4; i++ ) {
+									if ( !gamelogic.gameState.grid["hex" + i].owner ) { // if hex empty
+										$("#hex" + i).addClass("canMove");
+										$("#hex" + i).parent().removeClass("notAllowed");
+										$("#hex" + i).removeClass("notAllowed");
+									}
 								}
-							}
-						} else if ( currentPlayer === "player2" ) {  // see who's placing characters
-							for ( let i = 35; i <=38; i++ ) {
-								if ( !gamelogic.gameState.grid["hex" + i].owner ) { // if hex empty
-									$("#hex" + i).addClass("canMove");
-									$("#hex" + i).parent().removeClass("notAllowed");
-									$("#hex" + i).removeClass("notAllowed");
+							} else if ( currentPlayer === "player2" ) {  // see who's placing characters
+								for ( let i = 35; i <=38; i++ ) {
+									if ( !gamelogic.gameState.grid["hex" + i].owner ) { // if hex empty
+										$("#hex" + i).addClass("canMove");
+										$("#hex" + i).parent().removeClass("notAllowed");
+										$("#hex" + i).removeClass("notAllowed");
+									}
 								}
+							} else {
+								console.log("NOT SUPPOSED TO SEE ME");
 							}
+
+						} else {
+							if ( gamelogic.findNextPlayer(currentPlayer) === "player1" ) {
+								gamelogic.gameState.gameStatus.mode = "turn";
+
+								$scope.view.message = "";
+								$timeout.cancel(messageTimer);
+								$("#message").fadeIn( "slow", $scope.displayMessage( gamelogic.turnPlayerNumberIntoName(gamelogic.findNextPlayer(currentPlayer)) + ", click one of your units and choose where to move or attack. You have " + 2 + " action points to use."));
+
+								$scope.moveClickEventOn();
+								$('#grid').off('click', '[has-ripple="true"]'); // TURN OFF reserveClickEvent
+							}
+
+							gamelogic.endTurn();
+							$scope.renderGameState();
+							$scope.checkForMsgs();
+						}
+
+					// TURN MODE
+					} else if ( mode === "turn" ) {
+						// $scope.validMoveClickEventOn();
+						$scope.moveClickEventOn();
+
+						if ( ap === 0 ) {
+							gamelogic.endTurn();
+							$scope.renderGameState();
+						}
+
+					// SWAP mode
+					} else if ( mode === "swap" && gamelogic.gameState.gameStatus.swaps.numberOf > 0 ) {
+						// $('#grid').off('click', 'div'); // TURNS OFF valid move highlighter
+						this.reserveMenuClickEventOn();
+
+						if ( gamelogic.gameState.gameStatus.swaps.numberOf === 2 ) {
+							$('#grid').find('#'+gamelogic.gameState.gameStatus.swaps.players.first.cor).addClass("canMove");
+							$('#grid').find('#'+gamelogic.gameState.gameStatus.swaps.players.first.cor).removeClass("notAllowed");
+
+							if ( gamelogic.checkIfNoReserveLeft( "player1" ) ) {
+								gamelogic.gameState.gameStatus.swaps.numberOf -= 1;
+								$scope.renderGameState();
+							}
+
+						}
+
+						if ( gamelogic.gameState.gameStatus.swaps.numberOf === 1 ) {
+							$('#grid').find('#'+gamelogic.gameState.gameStatus.swaps.players.second.cor).addClass("canMove");
+							$('#grid').find('#'+gamelogic.gameState.gameStatus.swaps.players.second.cor).removeClass("notAllowed");
+
+							if ( gamelogic.checkIfNoReserveLeft( "player2" ) ) {
+								gamelogic.gameState.gameStatus.swaps.numberOf -= 1;
+								gamelogic.passTurn( gamelogic.gameState.gameStatus.swaps.players.first.player );
+								gamelogic.endSwap();
+							}
+
 						}
 
 					} else {
-						if ( gamelogic.findNextPlayer(currentPlayer) === "player1" ) {
-							gamelogic.gameState.gameStatus.mode = "turn";
-
-							$scope.view.message = "";
-							$timeout.cancel(messageTimer);
-							$("#message").fadeIn( "slow", $scope.displayMessage( gamelogic.findNextPlayer(currentPlayer) + ", click one of your units and choose where to move or attack. You have " + 2 + " action points to use."));
-
-							$scope.moveClickEventOn();
-							$("#grid").off("click", "[has-ripple='true']"); // TURN OFF reserveClickEvent
-						}
-
-						gamelogic.endTurn();
+						gamelogic.gameState.gameStatus.mode = "turn";
 						$scope.renderGameState();
-						$scope.view.message = "";
-						$timeout.cancel(messageTimer);
-						$scope.displayMessage(gamelogic.gameState.gameStatus.currentPlayer + ", it's your turn. Moves left: " + gamelogic.gameState.gameStatus.AP + ".");
 					}
 
-		// TURN MODE
-				} else if ( mode === "turn" ) {
-					// $scope.validMoveClickEventOn();
-					$scope.moveClickEventOn();
-
-					if ( ap === 0 ) {
-						gamelogic.endTurn();
-						$scope.renderGameState();
-						$scope.view.message = "";
-						$timeout.cancel(messageTimer);
-						$scope.displayMessage(gamelogic.gameState.gameStatus.currentPlayer + ", it's your turn. Moves left: " + gamelogic.gameState.gameStatus.AP + ".");
-					}
-
-		// SWAP mode
-				} else if ( mode === "swap" && gamelogic.gameState.gameStatus.swaps.numberOf > 0 ) {
-					// $('#grid').off('click', 'div'); // TURNS OFF valid move highlighter
-					this.reserveMenuClickEventOn();
-
-					if ( gamelogic.gameState.gameStatus.swaps.numberOf === 2 ) {
-						$('#grid').find('#'+gamelogic.gameState.gameStatus.swaps.players.first.cor).addClass("canMove");
-						$('#grid').find('#'+gamelogic.gameState.gameStatus.swaps.players.first.cor).removeClass("notAllowed");
-					}
-
-					if ( gamelogic.gameState.gameStatus.swaps.numberOf === 1 ) {
-						$('#grid').find('#'+gamelogic.gameState.gameStatus.swaps.players.second.cor).addClass("canMove");
-						$('#grid').find('#'+gamelogic.gameState.gameStatus.swaps.players.second.cor).removeClass("notAllowed");
-					}
-
-				} else {
-					gamelogic.gameState.gameStatus.mode = "turn";
-					$scope.renderGameState();
-				}
-
+				}  // END OF if no winner yet
 	};
 
 		$scope.renderGameState = function() {
@@ -185,7 +255,7 @@
 			let ap = gamelogic.gameState.gameStatus.AP;
 			let $li;
 
-			$("#grid").off("click", "[has-ripple='true']"); // TURN OFF reserveClickEvent
+			$('#grid').off('click', '[has-ripple="true"]'); // TURN OFF reserveClickEvent
 			// $('#grid').off('click', 'div'); // TURNS OFF validMoveClickEvent
 			$('#grid').off('click', '.canMove'); // TURNS OFF attemptToMoveClickEvent
 
@@ -194,18 +264,19 @@
 
 			for ( let hex in gamelogic.gameState.grid ) {
 					let gridHex = gamelogic.gameState.grid[hex];
-					if ( gridHex.owner ) {
+					if ( gridHex.owner !== "" ) {
 						$li = $("#"+hex).parent();
 						$li.addClass("up");
 						$li.append("<span class='notAllowed'></span>");
 
-						if (mode === "turn" && gridHex.owner === currentPlayer ) {
+						if ( mode === "turn" && gridHex.owner === currentPlayer ) {
 							$("#"+hex).removeClass("notAllowed");
 							$li.removeClass("notAllowed");
 						} else {
 							$("#"+hex).addClass("notAllowed");
 						}
 		//$scope.view.imageList[gridHex.type]
+		// gamelogic.gameState.players[gridHex.owner].avatarLink
 						if ( mode === "setup" ) {
 							$("#"+hex).append("<img class='notAllowed' src='" + gamelogic.gameState.players[gridHex.owner].avatarLink + "' alt='Unit is Here'/>");
 						} else {
@@ -215,7 +286,7 @@
 						if ( mode === "swap" ) {
 							let corToSwap;
 
-							if ( gamelogic.gameState.gameStatus.swaps.players.first.cor ) {
+							if ( currentPlayer === gamelogic.gameState.gameStatus.swaps.players.first.player ) {
 								corToSwap = "#"+gamelogic.gameState.gameStatus.swaps.players.first.cor;
 								$li = $(corToSwap).parent();
 
@@ -231,17 +302,6 @@
 							}
 						}
 					}
-			}
-
-
-			let reserve = gamelogic.gameState.players[currentPlayer].reserve;
-
-			for ( let unit in reserve ) {  // hide\show reserve menu items depending on reserve object
-				if ( unit ) {
-					$('#' + unit).removeClass("hide");
-				} else {
-					$('#' + unit).addClass("hide");
-				}
 			}
 
 			$scope.checkGameState();
@@ -263,14 +323,22 @@
 
 		// #### CIRCLE RESERVE MENU ####
 		$scope.compileReserveMenu = function() {
+			console.log("compile");
 			let currentPlayer = gamelogic.gameState.gameStatus.currentPlayer;
 			let reserve = gamelogic.gameState.players[currentPlayer].reserve;
+			let currentUnit = gamelogic.gameState.grid[$scope.view.selectedCor].type;
 
-			for ( var unit in reserve ) {
+			for ( let unit in reserve ) {
 				if ( reserve[unit] ) {
 					$('#'+unit).removeClass("hide");
 				} else {
 					$('#'+unit).addClass("hide");
+				}
+			}
+
+			for ( let unit in $scope.view.unitList ) { // find current unit in play and add to reserve menu
+				if ( $scope.view.unitList[unit] === currentUnit && !gamelogic.gameState.players[currentPlayer].reserve[unit] ) {
+					$('#'+unit).removeClass("hide");
 				}
 			}
 		};
@@ -286,7 +354,7 @@
 
 	// #### WHEN ITEM IN RESERVE MENU IS CLICKED ####
 			$('.menu a').each(function (index) {
-			  var thismenuItem        = $(this);
+			  let thismenuItem        = $(this);
 
 			  thismenuItem.click(function (event) {
 			    event.preventDefault();
@@ -316,7 +384,7 @@
 
 								$('.menuitem-wrapper').eq(index).addClass('spin');
 
-						    var timer = $timeout(function () {
+						    let timer = $timeout(function () {
 						      $('.menuitem-wrapper').eq(index).removeClass('spin')
 										.queue(function(next){
 												$scope.renderGameState();
@@ -329,16 +397,16 @@
 						    }, 100);
 
 								gamelogic.gameState.gameStatus.swaps.numberOf -= 1;
-								if ( gamelogic.gameState.gameStatus.swaps.numberOf === 0 ) {
-
-									gamelogic.endSwap();
-
-								} else {
+								// if ( gamelogic.gameState.gameStatus.swaps.numberOf === 0 ) {
+								//
+								// 	gamelogic.endSwap();
+								//
+								// } else {
 									$scope.view.message = "";
 									$timeout.cancel(messageTimer);
-									$scope.displayMessage(gamelogic.gameState.gameStatus.swaps.players.second.player + ", now you swap from your reserve!");
+									$scope.displayMessage( gamelogic.turnPlayerNumberIntoName(gamelogic.gameState.gameStatus.swaps.players.second.player) + ", now you swap from your reserve!");
 									gamelogic.passTurn(gamelogic.gameState.gameStatus.swaps.players.second.player );
-								}
+								// }
 
 						} else {  // defender swap second
 							characterToPutAway = gamelogic.gameState.grid[gamelogic.gameState.gameStatus.swaps.players.second.cor].type;
@@ -354,7 +422,7 @@
 								gamelogic.gameState.players[owner].reserve[unit] = null;
 								$('.menuitem-wrapper').eq(index).addClass('spin');
 
-								var timer2 = $timeout(function () {
+								let timer2 = $timeout(function () {
 									$('.menuitem-wrapper').eq(index).removeClass('spin')
 										.queue(function(next){
 												$scope.renderGameState();
@@ -370,6 +438,10 @@
 								// if ( gamelogic.gameState.gameStatus.swaps.numberOf === 0 ) {
 								gamelogic.passTurn( gamelogic.gameState.gameStatus.swaps.players.first.player );
 								gamelogic.endSwap();
+								$scope.renderGameState();
+								$scope.view.message = "";
+								$timeout.cancel(messageTimer);
+								$("#message").fadeIn( "slow", $scope.displayMessage( gamelogic.turnPlayerNumberIntoName(gamelogic.gameState.gameStatus.currentPlayer) + ", make your next move."));
 								// } else {
 								// 	gamelogic.passTurn(gamelogic.gameState.gameStatus.swaps.players.second.player );
 								// }
@@ -387,7 +459,7 @@
 
 				    $('.menuitem-wrapper').eq(index).addClass('spin');
 
-				    var timer1 = $timeout(function () {
+				    let timer1 = $timeout(function () {
 				      $('.menuitem-wrapper').eq(index).removeClass('spin');
 				      $('.menu').removeClass('open');
 				      $('.menu-btn').removeClass('clicked');
@@ -404,35 +476,25 @@
 
 
 		$scope.openReserveMenu = function( hexClicked, ev ) {
-			$scope.compileReserveMenu();
-			var reserveMenuWrapperHeight = $('#reserve').css("height");
-			var reserveMenuWrapperWidth = $('#reserve').css("width");
-			var top = ( parseInt(ev.pageY) - (parseInt(reserveMenuWrapperHeight) /2) -9 ); // -15 is to fix offset center
-			var left = ( parseInt(ev.pageX) - (parseInt(reserveMenuWrapperWidth) /2) +20);
+				$scope.compileReserveMenu();
+				let reserveMenuWrapperHeight = $('#reserve').css("height");
+				let reserveMenuWrapperWidth = $('#reserve').css("width");
+				let top = ( parseInt(ev.pageY) - (parseInt(reserveMenuWrapperHeight) /2) -9 ); // -9 is to fix offset center
+				let left = ( parseInt(ev.pageX) - (parseInt(reserveMenuWrapperWidth) /2) +20); // +20 is to fix offset center
 
-			$('#reserve').css({"top": top, "left": left});
+				$('#reserve').css({"top": top, "left": left});
 
-			$('.menu-btn').toggleClass('clicked');
-			$('#reserve').toggleClass('hide');
-			$('.modalbackground').toggleClass('hide');
-			$('.menu').toggleClass('open');
+				$('.menu-btn').toggleClass('clicked');
+				$('#reserve').toggleClass('hide');
+				$('.modalbackground').toggleClass('hide');
+				$('.menu').toggleClass('open');
 		};
 
 
 		$scope.reserveMenuClickEventOn = function(){
-			$("#grid").on("click", "[has-ripple='true']", function (ev) {
-				if ( !$(this).find("#"+$scope.view.selectedCor).hasClass("notAllowed") ) {
-					if ( $('.menu').hasClass('open') ) {
-						$('#close').toggleClass('clicked');
-						$('#reserve').toggleClass('hide');
-						$('.modalbackground').toggleClass('hide');
-						$('.menu').toggleClass('open').delay(100).queue(function(next) {
-							$scope.openReserveMenu(this, ev);
-							next();
-						});
-					} else {
-						$scope.openReserveMenu(this, ev);
-					}
+			$('#grid').on('click', '[has-ripple="true"]', function (ev) {
+				if ( !$(this).find("#"+$scope.view.selectedCor).hasClass("notAllowed") && !$('.menu').hasClass('open') ) {
+					$scope.openReserveMenu(this, ev);
 				}
 			});
 		};
@@ -444,39 +506,45 @@
 
 			$scope.view.message = "";
 
+			$scope.view.printingMessage = false;
 
 			$scope.displayMessage = function(msg){
+
 			  if(msg.length > 0){
+
 			      //append first character
 			      $scope.view.message = $scope.view.message + msg[0];
 			      messageTimer = $timeout(function(){
+										$scope.view.printingMessage = true;
 			              //Slice text by 1 character and call function again
 			              $scope.displayMessage(msg.slice(1));
 			           }, 25 );
-				  }
-				};
+				} else {
+					$scope.view.printingMessage = false;
+				}
+			};
 
 			$scope.checkForMsgs = function() {
-				var currentPlayer = gamelogic.gameState.gameStatus.currentPlayer;
-				var players = gamelogic.gameState.players;
-				var mode = gamelogic.gameState.gameStatus.mode;
-				var ap = gamelogic.gameState.gameStatus.AP;
+				let currentPlayerName = gamelogic.turnPlayerNumberIntoName(gamelogic.gameState.gameStatus.currentPlayer);
+				let players = gamelogic.gameState.players;
+				let mode = gamelogic.gameState.gameStatus.mode;
+				let ap = gamelogic.gameState.gameStatus.AP;
 
 				// SETUP mode
 				if ( mode === "setup" ) {
 					$scope.view.message = "";
 					$timeout.cancel(messageTimer);
-					$("#message").fadeIn( "slow", $scope.displayMessage( players[currentPlayer].name + ", click anywhere on the home row to place your units. Try to remember them. You won't be able to peek until a battle."));
+					$("#message").fadeIn( "slow", $scope.displayMessage( currentPlayerName + ", click anywhere on the home row to place your units. Try to remember them. You won't be able to peek until a battle."));
 				} else if ( mode === "turn" ) {
 					$scope.view.message = "";
 					$timeout.cancel(messageTimer);
-					$("#message").fadeIn( "slow", $scope.displayMessage( players[currentPlayer].name + ", click one of your units and choose where to move or attack. You have " + ap + " action points to use."));
+					$("#message").fadeIn( "slow", $scope.displayMessage( currentPlayerName + ", click one of your units and choose where to move or attack. You have " + ap + " action points to use."));
 				}
 			}; // ^^^^^^ END OF CHECK MESSAGES ^^^^^^
 
 
 
-			// (function(){   // setup and put the game into turn mode
+			// (function(){   // setup into ready for battle and put the game into turn mode
 			// 	let game = gamelogic.gameState;
 			//
 			// 	game.players.player1.reserve.unit1 = null;
@@ -503,7 +571,7 @@
 			// 	game.gameStatus.mode = "turn";
 			// 	game.gameStatus.AP = 2;
 			//
-			// 	$("#grid").off("click", "[has-ripple='true']"); // TURN OFF reserveClickEvent
+			// 	$('#grid').off('click', '[has-ripple="true"]'); // TURN OFF reserveClickEvent
 			//
 			// })();
 
@@ -513,7 +581,6 @@
 			$scope.checkForMsgs();
 			$scope.renderGameState();
 
+}]);
 
-
-    }]);
 })();

@@ -1,33 +1,28 @@
+
+
 <h1>USERS</h1>
 
-<div ng-show="firebaseUser">
-    <p>Hello, {{ firebaseUser.providerData[0].displayName }}</p>
-    <button ng-click="auth.$signOut()">Sign Out</button>
+  <div ng-show="firebaseUser">
+    <p>Hello {{ firebaseUser.displayName }}!</p>
+    <md-button ng-click="auth.$signOut()">Sign Out</md-button>
   </div>
   <div ng-hide="firebaseUser">
     <p>Welcome, please sign in.</p>
-    <button ng-click="auth.$signInWithPopup('facebook')">Sign In With Facebook</button>
+    <md-button ng-click="facebookSignin()">Sign In With Facebook</md-button>
+    <!-- auth.$signInWithPopup('facebook') -->
   </div>
-
-<hr>
-
-<!-- <input type="text" ng-model="data.text"/>
-<h1>You said: {{ data.text }}</h1> -->
-
-<hr>
 
 Email: <input type="text" ng-model="email"><br>
 Password: <input type="text" ng-model="password">
+
 {{email}} | {{password}}
-<!-- {{users | json}} -->
 
-  <br><br>
-
-  <button ng-click="createUser(email,password)">Create User</button>
-
-  <br><br>
-
-  <button ng-click="deleteUser()">Delete User</button>
+  <div>
+    <md-button ng-click="createUser(email,password)">Create User</md-button>
+  </div>
+  <div>
+    <md-button ng-click="signInWithEmail(email,password)">Sign In</md-button>
+  </div>
 
   <p ng-if="message">Message: <strong>{{ message }}</strong></p>
   <p ng-if="error">Error: <strong>{{ error }}</strong></p>
