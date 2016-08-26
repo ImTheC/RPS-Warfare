@@ -5,7 +5,8 @@ body{
 }
 
 .categories{
-  width:60%;
+  width: 40vw;
+	/*height: 50%;*/
   margin:0 auto;
   transform:rotateX(45deg);
   transform-style: preserve-3d;
@@ -146,15 +147,18 @@ body{
 	background-color:rgba(0,0,255,.5);
 }
 
-
 img.icon {
 	height: 40px;
 }
 
+.message-wrapper {
+	width: 100vw;
+}
+
 .message {
 	font-family: 'Nova Square', cursive;
-	position: absolute;
-	display: none;
+	/*position: absolute;*/
+	display: inline-block;
 	left: 15vw;
 	width: 70vw;
 	/*margin-left: 5%;
