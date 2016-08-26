@@ -17,9 +17,10 @@
 
       //initialized functions
       t.openSidebar = openSidebar;
+      t.closeSidebar = closeSidebar;
       t.openRightSidebar = openRightSidebar;
       t.closeRightSidebar = closeRightSidebar;
-      t.closeSidebar = closeSidebar;
+      t.closeRightSidebarAndOpenLeft = closeRightSidebarAndOpenLeft;
 
       //initialized vars
       s.auth = authService;
@@ -41,8 +42,18 @@
         },250);
       }
 
+      function closeRightSidebarAndOpenLeft(){
+        t.rightSidenavOpen = false;
+        $timeout(function(){
+          st.go('games/new');
+        },250);
+      }
+
       function closeSidebar(){
         $mdSidenav('left').close();
+        $timeout(function(){
+          st.go('games');
+        },250);
       }
 
       function showToast(message){
