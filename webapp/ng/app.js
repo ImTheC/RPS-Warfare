@@ -48,7 +48,7 @@
         })
         .state('games.id',{
           url: '/:id',
-          templateUrl: '/ng/views/games.tpl.html',
+          templateUrl: '/ng/views/game.tpl.html',
           controller: 'gameCtr as game',
           params: {
             user: null
