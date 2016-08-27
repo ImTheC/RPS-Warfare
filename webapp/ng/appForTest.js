@@ -3,7 +3,7 @@
 
   angular
 
-    .module('rpsApp', ['ngMaterial','ngAnimate','ui.router', 'firebase'])
+    .module('rpsApp', ['ngMaterial','ngAnimate','ui.router'])
 
     .config(function($mdThemingProvider,$stateProvider){
 
@@ -47,8 +47,8 @@
           controller: 'loginCtr as login'
         })
         .state('games.id',{
-          url: '/:id',
-          templateUrl: '/ng/views/games.tpl.html',
+          url: '/id/:id',
+          templateUrl: '/ng/views/game.tpl.html',
           controller: 'gameCtr as game',
           params: {
             user: null

@@ -1,10 +1,11 @@
-
+/*jshint esversion: 6 */
 
 (function(){
 'use strict';
 
   angular
     .module('rpsApp')
+
     .controller('gamesCtr',
             ['$rootScope','$scope','$state','$http','$timeout','$mdToast','$mdDialog','$mdSidenav','$firebaseObject','$firebaseArray','authService','addUserService','getUserService',
       function($rootScope, $scope, $state, $http, $timeout, $mdToast, $mdDialog, $mdSidenav, $firebaseObject, $firebaseArray, authService, addUserService, getUserService){
@@ -87,8 +88,8 @@
 
       });
 
+      //initialized lets
 
-
-    }]);
+}]);
 
 })();
