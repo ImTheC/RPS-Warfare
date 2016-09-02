@@ -67,11 +67,12 @@
                     photoURL: { writable:true }
                   });
                   newUserObj.displayName = newUserObj.email.replace(/@.*/, '');
-                  newUserObj.photoURL = 'assets/images/no-photo.gif';
+                  newUserObj.photoURL = '/images/no-photo.gif';
 
                   newUserObj.dateCreated = firebase.database.ServerValue.TIMESTAMP;
                   newUserObj.score = 0;
-                  newUserObj.inGames = [''];
+                  newUserObj.inGames = [];
+                  newUserObj.friends = [];
                   newUserObj.aid = firebaseUser.uid;
                   newUserObj.emailVerified = firebaseUser.emailVerified;
                   s.aid = newUserObj.aid;
@@ -118,7 +119,8 @@
                   let newUserObj = result.user.providerData[0];
                   newUserObj.dateCreated = firebase.database.ServerValue.TIMESTAMP;
                   newUserObj.score = 0;
-                  newUserObj.inGames = [''];
+                  newUserObj.inGames = [];
+                  newUserObj.friends = [];
                   newUserObj.aid = result.user.uid;
                   newUserObj.emailVerified = result.user.emailVerified;
                   s.aid = newUserObj.aid;

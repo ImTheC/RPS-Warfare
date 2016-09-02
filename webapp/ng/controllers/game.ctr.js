@@ -6,10 +6,11 @@
   angular
     .module('rpsApp')
     .controller('gameCtr',
-            ['$scope','$state','$http','$mdToast','$mdDialog','getUsersService','newGameService','setupGameService','getGameService', 'gamelogic',
-      function($scope, $state, $http, $mdToast, $mdDialog, getUsersService, newGameService, setupGameService, getGameService, gamelogic){
+            ['$rootScope','$scope','$state','$http','$mdToast','$mdDialog', '$timeout', 'gamelogic',
+      function($rootScope, $scope, $state, $http, $mdToast, $mdDialog, $timeout, gamelogic){
 
       let t = this;
+      let rs = $rootScope;
       let s = $scope;
       let st = $state;
 
@@ -17,7 +18,7 @@
 
 
       //vars
-
+      t.game = st.params.game;
 			$scope.view = {};
 
 			$scope.view.selectedCor = "";
@@ -221,11 +222,12 @@
 	};
 
 		$scope.renderGameState = function() {
-			$scope.view.currentPlayer = gamelogic.gameState.gameStatus.currentPlayer;
+      // *************manual GET request assuming no 3-way data bind possible, wrap everything below in a promised then
+      $scope.view.currentPlayer = gamelogic.gameState.gameStatus.currentPlayer;
 			$scope.view.mode = gamelogic.gameState.gameStatus.mode;
 			$scope.view.ap = gamelogic.gameState.gameStatus.AP;
 
-			let currentPlayer = gamelogic.gameState.gameStatus.currentPlayer;
+			let currentPlayer = gamelogic.gameState.gameStatus.currentPlayer;//watcher evaluating
 			let mode = gamelogic.gameState.gameStatus.mode;
 			let ap = gamelogic.gameState.gameStatus.AP;
 			let $li;

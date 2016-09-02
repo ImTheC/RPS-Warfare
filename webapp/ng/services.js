@@ -37,170 +37,170 @@
 
     }])
 
-    .service("getGameService", ["$rootScope",'$firebaseArray',
-      function($rootScope,$firebaseArray) {
+    .service("getGameService", ["$rootScope",'$firebaseArray','$firebaseObject',
+      function($rootScope,$firebaseArray,$firebaseObject) {
 
         this.newGame = function(pid1,pname1,pid2,pname2){
 
 
                 let game = {
-
-                  "players": {
-                    "player1": {
-                      "id": pid1,
-                      "displayName": pname1,
-                      "reserve": {
-                        "unit1": "Rock",
-                        "unit2": "Rock",
-                        "unit3": "Paper",
-                        "unit4": "Paper",
-                        "unit5": "Scissors",
-                        "unit6": "Scissors"
-                      },
-                    },
-                    "player2": {
-                      "id": pid2,
-                      "displayName": pname2,
-                      "reserve": {
-                        "unit1": "Rock",
-                        "unit2": "Rock",
-                        "unit3": "Paper",
-                        "unit4": "Paper",
-                        "unit5": "Scissors",
-                        "unit6": "Scissors"
-                      }
-                    },
-                  },
-                  "gameStatus": {
-                    "currentPlayer": "player1",
-                    "mode": "setup",
-                    "swaps": {
-                      "numberOf": '',
-                      "players": {
-                        "first": '',
-                        "second": ''
-                      }
-                    },
-                    "AP": 4,
-                  },
-                  "grid": {
-                    "hex1": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex2": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex3": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex4": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex5": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex6": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex7": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex8": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex9": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex10": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex11": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex12": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex13": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex14": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex15": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex16": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex17": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex18": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex19": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex20": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex21": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex22": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex23": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex24": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex25": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex26": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex27": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex28": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex29": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex30": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex31": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex32": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex33": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex34": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex35": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex36": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex37": {
-                           "owner": '', "type": '', "health": 1
-                         },
-                    "hex38": {
-                           "owner": '', "type": '', "health": 1
-                         }
-                    }
-
-                };
+  										"players": {
+  											"player1": {
+                          id: pid1,
+                          "username": pname1,
+  												"avatarLink": "images/agents/panda.gif",
+  												"reserve": {
+  													"unit1": "scissors",
+  													"unit2": "rock",
+  													"unit3": "paper",
+  													"unit4": "scissors",
+  													"unit5": "rock",
+  													"unit6": "paper"
+  												}
+  											},
+  											"player2": {
+                          id: pid2,
+                          "username": pname2,
+  												"avatarLink": "images/agents/rainbowsheep.gif",
+  												"reserve": {
+  													"unit1": "scissors",
+  													"unit2": "rock",
+  													"unit3": "paper",
+  													"unit4": "scissors",
+  													"unit5": "rock",
+  													"unit6": "paper"
+  												}
+  											}
+  										},
+  										"gameStatus": {
+  											"currentPlayer": "player1",
+  											"mode": "setup",
+  											"swaps": {
+  												"numberOf": '',
+  												"players": {
+  													"first": {"player": '', "cor": ''},
+  													"second": {"player": '', "cor": ''}
+  												}
+  											},
+  											"AP": 4,
+  										},
+  										"grid": {
+  											"hex1": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex2": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex3": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex4": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex5": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex6": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex7": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex8": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex9": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex10": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex11": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex12": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex13": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex14": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex15": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex16": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex17": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex18": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex19": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex20": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex21": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex22": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex23": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex24": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex25": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex26": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex27": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex28": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex29": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex30": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex31": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex32": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex33": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex34": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex35": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex36": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex37": {
+  														 "owner": "", "type": "", "health": ""
+  													 },
+  											"hex38": {
+  														 "owner": "", "type": "", "health": ""
+  													 }
+  											}
+  									};
 
                 // GET KEY FOR NEW GAME INSTANCE
                 let gameKey = firebase.database().ref().child('games').push().key;
@@ -217,172 +217,11 @@
 
         };
 
-        this.currentGame = function(){
-
-        };
-
-        this.gameDefaults = {
-        "players": {
-        	"player1": {
-        		"id": null,
-        		"displayName": null,
-        		"reserve": {
-        			"unit1": "Rock",
-        			"unit2": "Rock",
-        			"unit3": "Paper",
-        			"unit4": "Paper",
-        			"unit5": "Scissors",
-        			"unit6": "Scissors"
-        		},
-        	},
-        	"player2": {
-        		"id": null,
-        		"displayName": null,
-        		"reserve": {
-        			"unit1": "Rock",
-        			"unit2": "Rock",
-        			"unit3": "Paper",
-        			"unit4": "Paper",
-        			"unit5": "Scissors",
-        			"unit6": "Scissors"
-        		}
-        	},
-        },
-        "gameStatus": {
-        	"currentPlayer": "player1",
-        	"mode": "setup",
-        	"swaps": {
-        		"numberOf": null,
-        		"players": {
-        			"first": null,
-        			"second": null
-        		}
-        	},
-        	"AP": null,
-        },
-        "grid": {
-        	"hex1": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex2": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex3": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex4": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex5": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex6": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex7": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex8": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex9": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex10": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex11": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex12": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex13": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex14": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex15": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex16": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex17": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex18": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex19": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex20": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex21": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex22": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex23": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex24": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex25": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex26": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex27": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex28": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex29": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex30": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex31": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex32": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex33": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex34": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex35": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex36": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex37": {
-        				 "owner": null, "type": null, "health": 1
-        			 },
-        	"hex38": {
-        				 "owner": null, "type": null, "health": 1
-        			 }
-        	}
-        };
-
       }])
 
 
 		// ### GAMELOGIC ###
-				.service('gamelogic', function(){
+				.service('gamelogic', ['$firebaseObject',function($firebaseObject){
 
 					let message = "";
 
@@ -428,6 +267,7 @@
 
 					this.passTurn = function ( passTo ) {
 						this.gameState.gameStatus.currentPlayer = passTo;
+            // *************// manual UPDATE request (assuming no 3-way data bind possible) on this.gameState object
 					};
 
 					this.endTurn = function () {
@@ -439,11 +279,13 @@
 							self.gameState.gameStatus.AP = 2;
 							self.passTurn( self.findNextPlayer() );
 						}
+            // *************// manual UPDATE request (assuming no 3-way data bind possible) on this.gameState object
 					};
 
 					this.useAP = function ( ) {
 						let self = this;
 						this.gameState.gameStatus.AP -= 1;
+            // *************// manual UPDATE request (assuming no 3-way data bind possible) on this.gameState object
 					};
 
 					this.move = function ( objectFromSelectedCor, moveFrom, moveTo ) {
@@ -898,162 +740,9 @@
 										 }
 							};
 
-							this.gameState = {
-										"players": {
-											"player1": {
-												"username": "Christopher",
-												"avatarLink": "images/agents/panda.gif",
-												"reserve": {
-													"unit1": "scissors",
-													"unit2": "rock",
-													"unit3": "paper",
-													"unit4": "scissors",
-													"unit5": "rock",
-													"unit6": "paper"
-												}
-											},
-											"player2": {
-												"username": "Castro",
-												"avatarLink": "images/agents/rainbowsheep.gif",
-												"reserve": {
-													"unit1": "scissors",
-													"unit2": "rock",
-													"unit3": "paper",
-													"unit4": "scissors",
-													"unit5": "rock",
-													"unit6": "paper"
-												}
-											}
-										},
-										"gameStatus": {
-											"currentPlayer": "player1",
-											"mode": "setup",
-											"swaps": {
-												"numberOf": null,
-												"players": {
-													"first": {"player": null, "cor": null},
-													"second": {"player": null, "cor": null}
-												}
-											},
-											"AP": 4,
-										},
-										"grid": {
-											"hex1": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex2": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex3": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex4": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex5": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex6": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex7": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex8": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex9": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex10": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex11": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex12": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex13": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex14": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex15": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex16": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex17": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex18": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex19": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex20": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex21": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex22": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex23": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex24": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex25": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex26": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex27": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex28": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex29": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex30": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex31": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex32": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex33": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex34": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex35": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex36": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex37": {
-														 "owner": "", "type": "", "health": ""
-													 },
-											"hex38": {
-														 "owner": "", "type": "", "health": ""
-													 }
-											}
-									};
-				});
+// opportunity for 3-way data-binding, change this to rootScope
+
+              // this.gameState =
+				}]);//end Anderson service
 
 })();

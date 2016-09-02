@@ -77,13 +77,16 @@
           usersRef.orderByChild('aid').equalTo(firebaseUser.uid).on('child_added', function(snap){
             $timeout(function(){
               rs.firebaseUser = snap.val();
-              console.log(rs.firebaseUser);
               closeRightSidebar();
+              rs.userKey = snap.key;
+              console.log(rs.userKey);
+              console.log(rs.firebaseUser);
             });
           });
 
         } else {
           rs.firebaseUser = null;
+          rs.userKey = null;
         }
 
       });

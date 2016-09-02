@@ -23,10 +23,25 @@
           {{firebaseUser.displayName}}
         </p>
 
+        <!-- <md-input-container>
+          <label for="way3tester">Test 3-Way Databinding</label>
+          <input type="text" ng-model="gameObj.gameStatus.AP" aria-label="way3tester" id="way3tester">
+        </md-input-container> -->
+
+        <md-input-container ng-show="friendList">
+          <div ng-repeat="friend in friendList">
+            <img ng-src={{friend.photoURL}} style="border-radius:25px;width:50px" alt={{friend.displayName}} /><br>
+            {{friend.displayName}}
+            <md-button aria-label="Play RPS" ng-click="newgame.initGame(friend.key)">
+              Play RPS
+            </md-button>
+          </div>
+        </md-input-container>
+
         <md-input-container>
           <p>
-            Find a Friend by Email<br>
-            <input type="text" ng-model="match" aria-label="Search for Friends">
+            <label for="friendfinder">Find Friends by Email To Play With</label>
+            <input type="text" ng-model="match" aria-label="Search for Friends" id="friendfinder">
 
                 <div ng-show="match.length" ng-repeat="user in users | filter:{email:match} | filter:match:true | limitTo:1">
                   <img ng-src={{user.photoURL}} style="border-radius:25px;width:50px" alt={{user.displayName}} /><br>

@@ -51,7 +51,7 @@
           templateUrl: '/ng/views/game.tpl.html',
           controller: 'gameCtr as game',
           params: {
-            user: null
+            game: null
           }
         });
 
